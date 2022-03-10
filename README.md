@@ -3,7 +3,7 @@
 ## Overview
 Vessel SDK proves a way to connect your application to Vessel Wallet.
 
-## Demo Apps
+## Demo App
 To get started with the demo apps, follow the instructions below:
 
 1. Clone this project and open the DemoApp project in the Unity Editor.
