@@ -58,3 +58,22 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+.DS_Store
+
+DemoApp/.idea/*
+
+*.meta
+
+DemoApp/[Ll]ibrary/
+DemoApp/[Tt]emp/
+DemoApp/[Oo]bj/
+DemoApp/[Bb]uild/
+DemoApp/[Bb]uilds/
+DemoApp/[Ll]ogs/
+DemoApp/[Mm]emoryCaptures/
+
+DemoApp/Assets/Plugins/Editor/JetBrains/*
+
+DemoApp/Assets/Plugins/OpenVessel/.idea/*
+DemoApp/Assets/Plugins/Android/*.aar
+DemoApp/Assets/Plugins/Android/*.jar
