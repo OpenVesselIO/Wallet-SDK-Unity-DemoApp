@@ -16,6 +16,15 @@ namespace OVSdk
         }
 
         /// <summary>
+        /// Assign the environment that should be used for this SDK.
+        /// <b>Please note</b>: the environment should be set before calling <code>Initialize()</code>
+        /// </summary>
+        /// <param name="Environment">
+        /// Environment to set. Must not be null. PRODUCTION by default.
+        /// </param>
+        public static VesselEnvironment Environment { get; set; }
+
+        /// <summary>
         /// Initialize Open Vessel SDK
         /// </summary>
         /// <param name="userId">

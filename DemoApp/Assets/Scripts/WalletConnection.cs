@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using OVSdk;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class WalletConnection : MonoBehaviour
@@ -24,6 +25,7 @@ public class WalletConnection : MonoBehaviour
         _statusText.text = "Starting...";
 
 
+        OVSdk.Sdk.Environment = VesselEnvironment.Staging;
         OVSdk.AppConnectManagerCallbacks.OnStateUpdated += RenderAppConnectState;
 
         Debug.Log("Initializing the SDK...");
@@ -49,11 +51,11 @@ public class WalletConnection : MonoBehaviour
         var isConnected = state.Status == OVSdk.AppConnectStatus.Connected;
         if (isConnected)
         {
-            _statusText.text = "Wallet: " + state.WalletAddress;
+            _statusText.text = "Wallet: " + state.WalletAddress + "\n(" + OVSdk.Sdk.Environment + ")";
         }
         else
         {
-            _statusText.text = "Error: " + state.Status;
+            _statusText.text = "Error: " + state.Status + "\n(" + OVSdk.Sdk.Environment + ")";
         }
 
         _connectButton.enabled = !isConnected;

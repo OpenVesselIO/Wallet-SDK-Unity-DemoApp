@@ -16,6 +16,33 @@ extern "C" {
         [[OVLSdk sharedInstance] startWithUserId: NSSTRING(userId)];
     }
 
+    void _OVSetEnvironment(const char * environment)
+    {
+        if (strcmp("PRODUCTION", environment) == 0) {
+            [[OVLSdk sharedInstance] setEnvironment: OVLEnvironmentProduction];
+        } else if (strcmp("STAGING", environment) == 0) {
+            [[OVLSdk sharedInstance] setEnvironment: OVLEnvironmentStaging];
+        } else if (strcmp("DEVELOPMENT", environment) == 0) {
+            [[OVLSdk sharedInstance] setEnvironment: OVLEnvironmentDevelopment];
+        }
+    }
+
+    char * _OVGetEnvironment()
+    {
+        const char * environmentStr = "PRODUCTION";
+        OVLEnvironment environment = [[OVLSdk sharedInstance] environment];
+        if (environment == OVLEnvironmentStaging) {
+            environmentStr = "STAGING";
+        } else if (environment == OVLEnvironmentDevelopment) {
+            environmentStr = "DEVELOPMENT";
+        }
+        
+        char* environmentStrCopy = (char*)malloc(strlen(environmentStr) + 1);
+        strcpy(environmentStrCopy, environmentStr);
+
+        return environmentStrCopy;
+    }
+
     void _OVLoadWalletView()
     {
         [[OVLSdk sharedInstance] presentWalletFromViewController:UNITY_VIEW_CONTROLLER];

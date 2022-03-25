@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace OVSdk
@@ -27,6 +28,28 @@ namespace OVSdk
             OvSdkPluginClass.CallStatic("initialize", userId);
         }
 
+        /// <summary>
+        /// Assign the environment that should be used for this SDK.
+        /// <b>Please note</b>: the environment should be set before calling <code>Initialize()</code>
+        /// </summary>
+        /// <param name="Environment">
+        /// Environment to set. Must not be null. PRODUCTION by default.
+        /// </param>
+        public static VesselEnvironment Environment { 
+            get {
+                var envString = OvSdkPluginClass.CallStatic<string>("getEnvironment");
+                var envParsed = Enum.TryParse(envString, true, out VesselEnvironment parsedEnv);
+                if (envParsed) {
+                    return parsedEnv;
+                } else {
+                    return VesselEnvironment.Production;
+                }
+            }
+
+            set {
+               OvSdkPluginClass.CallStatic("setEnvironment", value.ToString().ToUpper());
+            } 
+        }
 
         /// <summary>
         /// Show wallet user wallet activity.
