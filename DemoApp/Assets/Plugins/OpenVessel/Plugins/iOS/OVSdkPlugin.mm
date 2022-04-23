@@ -42,9 +42,4 @@ extern "C" {
 
         return environmentStrCopy;
     }
-
-    void _OVLoadWalletView()
-    {
-        [[OVLSdk sharedInstance] presentWalletFromViewController:UNITY_VIEW_CONTROLLER];
-    }
 }

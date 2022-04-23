@@ -93,15 +93,15 @@ extern "C" {
     }
     else if ( status == OVLAppConnectStatusWalletNotInstalled )
     {
-        return @"WalletNotInstalled";
+        return @"ErrorWalletNotInstalled";
     }
     else if ( status == OVLAppConnectStatusCancelled )
     {
-        return @"Cancelled";
+        return @"ErrorCanceled";
     }
     else if ( status == OVLAppConnectStatusDeclined )
     {
-        return @"Declined";
+        return @"ErrorDeclined";
     }
     else
     {

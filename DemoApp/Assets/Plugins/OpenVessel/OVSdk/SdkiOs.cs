@@ -12,6 +12,11 @@ namespace OVSdk
         /// <returns>Connection manager</returns>
         public static AppConnectManageriOs AppConnectManager => new AppConnectManageriOs();
 
+        /// <summary>
+        /// An object that can present various wallet views
+        /// </summary>
+        /// <returns>Wallet presenter</returns>
+        public static WalletPresenteriOs WalletPresenter => new WalletPresenteriOs();
 
         static SdkiOs()
         {
@@ -63,21 +68,6 @@ namespace OVSdk
             }
 
             set { _OVSetEnvironment(value.ToString().ToUpper()); }
-        }
-
-        [DllImport("__Internal")]
-        private static extern void _OVLoadWalletView();
-
-
-        /// <summary>
-        /// Show wallet user wallet activity.
-        /// <b>Please note</b>: wallet activity will display only if user has connected their wallet to the app.
-        /// <b>Please note</b>: use {@link AppConnectManager} to connect wallet to this app
-        ///
-        /// </summary>
-        public static void LoadWalletView()
-        {
-            _OVLoadWalletView();
         }
     }
 #endif

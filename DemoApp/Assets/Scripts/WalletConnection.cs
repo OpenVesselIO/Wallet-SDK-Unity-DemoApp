@@ -8,10 +8,14 @@ public class WalletConnection : MonoBehaviour
 
     private Button _connectButton;
     private Button _disconnectButton;
+    private Button _showWalletButton;
+    private Button _openWalletAppButton;
     private Text _statusText;
 
     void Start()
     {
+        Debug.Log("Starting...");
+        
         _connectButton = GameObject.Find("BtnConnect").GetComponent<Button>();
         _connectButton.onClick.AddListener(ConnectWallet);
         _connectButton.enabled = false;
@@ -19,6 +23,13 @@ public class WalletConnection : MonoBehaviour
         _disconnectButton = GameObject.Find("BtnDisconnect").GetComponent<Button>();
         _disconnectButton.onClick.AddListener(DisconnectWallet);
         _disconnectButton.enabled = false;
+
+        _showWalletButton = GameObject.Find("BtnShowWallet").GetComponent<Button>();
+        _showWalletButton.onClick.AddListener(ShowWallet);
+        _showWalletButton.enabled = false;
+
+        _openWalletAppButton = GameObject.Find("BtnOpenWalletApp").GetComponent<Button>();
+        _openWalletAppButton.onClick.AddListener(OpenWalletApplication);
 
 
         _statusText = GameObject.Find("TxtStatus").GetComponent<Text>();
@@ -44,6 +55,18 @@ public class WalletConnection : MonoBehaviour
         OVSdk.Sdk.AppConnectManager.DisconnectCurrentSession();
     }
 
+    private void ShowWallet()
+    {
+        Debug.Log("Showing wallet inside of the current application...");
+        OVSdk.Sdk.WalletPresenter.ShowWallet();
+    }
+
+    private void OpenWalletApplication()
+    {
+        Debug.Log("Opening wallet application...");
+        OVSdk.Sdk.WalletPresenter.OpenWalletApplication();
+    }
+
     private void RenderAppConnectState(OVSdk.AppConnectState state)
     {
         Debug.Log("Got new wallet state: " + state);
@@ -60,5 +83,6 @@ public class WalletConnection : MonoBehaviour
 
         _connectButton.enabled = !isConnected;
         _disconnectButton.enabled = isConnected;
+        _showWalletButton.enabled = isConnected;
     }
 }

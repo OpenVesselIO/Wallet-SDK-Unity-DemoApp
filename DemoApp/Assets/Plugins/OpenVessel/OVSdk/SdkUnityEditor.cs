@@ -10,6 +10,12 @@ namespace OVSdk
         /// <returns>Connection manager</returns>
         public static AppConnectManagerUnityEditor AppConnectManager => new AppConnectManagerUnityEditor();
 
+        /// <summary>
+        /// An object that can present various wallet views
+        /// </summary>
+        /// <returns>Wallet presenter</returns>
+        public static WalletPresenterUnityEditor WalletPresenter => new WalletPresenterUnityEditor();
+        
         static SdkUnityEditor()
         {
             InitCallbacks();
@@ -34,18 +40,6 @@ namespace OVSdk
         {
             AppConnectManagerCallbacks.Instance.ForwardOnStateUpdatedEvent("{\"status\": \"Disconnected\"}");
             SdkCallbacks.Instance.ForwardOnSdkInitializedEvent("");
-        }
-
-
-        /// <summary>
-        /// Show wallet user wallet activity.
-        /// <b>Please note</b>: wallet activity will display only if user has connected their wallet to the app.
-        /// <b>Please note</b>: use {@link AppConnectManager} to connect wallet to this app
-        ///
-        /// </summary>
-        public static void LoadWalletView()
-        {
-            Logger.UserDebug("Showing User View");
         }
     }
 }

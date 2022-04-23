@@ -19,6 +19,12 @@ namespace OVSdk
         /// </summary>
         /// <returns>Connection manager</returns>
         public static AppConnectManagerAndroid AppConnectManager => new AppConnectManagerAndroid();
+        
+        /// <summary>
+        /// An object that can present various wallet views
+        /// </summary>
+        /// <returns>Wallet presenter</returns>
+        public static WalletPresenterAndroid WalletPresenter => new WalletPresenterAndroid();
 
         /// <summary>
         /// Initialize Open Vessel SDK
