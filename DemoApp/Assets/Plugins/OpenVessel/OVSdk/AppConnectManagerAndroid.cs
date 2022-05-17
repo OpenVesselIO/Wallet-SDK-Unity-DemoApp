@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace OVSdk
@@ -44,13 +45,22 @@ namespace OVSdk
         {
             OvSdkPluginClass.CallStatic("disconnectCurrentSession");
         }
-        
+
         /// <summary>
         /// Disconnect wallet from all of the sessions  
         /// </summary>
         public void DisconnectAllSessions()
         {
             OvSdkPluginClass.CallStatic("disconnectAllSessions");
+        }
+
+        /// <summary>
+        /// Handle a deeplink that returns into the app connect flow
+        /// Returns <c>true</c> if OpenVessel connect was able to recognize and handle the link
+        /// </summary>
+        public bool HandleDeeplink(String deeplink)
+        {
+            return OvSdkPluginClass.CallStatic<bool>("handleDeeplink", deeplink);
         }
     }
 #endif

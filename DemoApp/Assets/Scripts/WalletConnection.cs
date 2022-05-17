@@ -15,7 +15,7 @@ public class WalletConnection : MonoBehaviour
     void Start()
     {
         Debug.Log("Starting...");
-        
+
         _connectButton = GameObject.Find("BtnConnect").GetComponent<Button>();
         _connectButton.onClick.AddListener(ConnectWallet);
         _connectButton.enabled = false;
@@ -38,6 +38,12 @@ public class WalletConnection : MonoBehaviour
 
         OVSdk.Sdk.Environment = VesselEnvironment.Staging;
         OVSdk.AppConnectManagerCallbacks.OnStateUpdated += RenderAppConnectState;
+
+        OVSdk.Sdk.Configuration = new SdkConfiguration
+        {
+            MinLogLevel = SdkLogLevel.Debug,
+            ConnectCallbackUrl = "vesseldemo://connect"
+        };
 
         Debug.Log("Initializing the SDK...");
         OVSdk.Sdk.Initialize(USER_ID);

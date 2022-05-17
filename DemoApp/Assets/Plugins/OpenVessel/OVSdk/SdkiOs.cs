@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using System.Runtime.InteropServices;
 
 namespace OVSdk
@@ -6,6 +7,23 @@ namespace OVSdk
 #if UNITY_IOS
     public class SdkiOs : SdkBase
     {
+        [DllImport("__Internal")]
+        private static extern void _OVSetConfiguration(string configurationJson);
+
+        private static SdkConfiguration _configuration;
+
+        public static SdkConfiguration Configuration
+        {
+            get => _configuration;
+            set
+            {
+                _configuration= value;
+
+                var configurationStr = JsonUtility.ToJson(value);
+                _OVSetConfiguration(configurationStr);
+            }
+        }
+
         /// <summary>
         /// App connect manager enabling connecting this app to the central OpenWallet Vessel.
         /// </summary>

@@ -1,9 +1,23 @@
-using OVSdk.Utils;
+using UnityEngine;
+using Logger = OVSdk.Utils.Logger;
 
 namespace OVSdk
 {
     public class SdkUnityEditor : SdkBase
     {
+        private static SdkConfiguration _configuration;
+
+        public static SdkConfiguration Configuration
+        {
+            get => _configuration;
+
+            set
+            {
+                _configuration = value;
+                Logger.UserDebug("Setting vessel config: " + JsonUtility.ToJson(value));
+            }
+        }
+
         /// <summary>
         /// App connect manager enabling connecting this app to the central OpenWallet Vessel.
         /// </summary>
@@ -15,7 +29,7 @@ namespace OVSdk
         /// </summary>
         /// <returns>Wallet presenter</returns>
         public static WalletPresenterUnityEditor WalletPresenter => new WalletPresenterUnityEditor();
-        
+
         static SdkUnityEditor()
         {
             InitCallbacks();

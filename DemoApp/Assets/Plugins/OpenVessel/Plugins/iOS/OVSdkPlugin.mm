@@ -27,6 +27,46 @@ extern "C" {
         }
     }
 
+    void _OVSetConfiguration(const char * configurationJson)
+    {
+        NSError *jsonError;
+        NSData *configurationJsonData = [NSSTRING(configurationJson) dataUsingEncoding: NSUTF8StringEncoding];
+        NSDictionary * configurationDict = [NSJSONSerialization JSONObjectWithData:configurationJsonData
+                                              options:NSJSONReadingMutableContainers
+                                                error:&jsonError];
+        if ( jsonError == nullptr && configurationDict ) {
+            
+            OVLLogLevel minLogLevel = OVLLogLevelError;
+            NSURL * connectCallbackUrl = NULL;
+            
+            if ([[configurationDict allKeys] containsObject: @"MinLogLevel"]) {
+                int minLogLevelInt = [configurationDict[@"MinLogLevel"] integerValue];
+                if ( minLogLevelInt == 0) {
+                    minLogLevel = OVLLogLevelDebug;
+                }
+                else if ( minLogLevelInt == 1) {
+                    minLogLevel = OVLLogLevelInfo;
+                }
+                else if ( minLogLevelInt == 2) {
+                    minLogLevel = OVLLogLevelWarning;
+                }
+                else if ( minLogLevelInt == 3) {
+                    minLogLevel = OVLLogLevelError;
+                }
+            }
+            
+            if ([configurationDict objectForKey: @"ConnectCallbackUrl"]) {
+                connectCallbackUrl = [NSURL URLWithString:[configurationDict objectForKey: @"ConnectCallbackUrl"]];
+            }
+            
+            OVLSdkConfiguration * configuration = [[OVLSdkConfiguration alloc] init];
+            configuration.minLogLevel = minLogLevel;
+            configuration.connectCallbackUrl = connectCallbackUrl;
+            
+            [[OVLSdk sharedInstance] setConfiguration: configuration];
+        }
+    }
+
     char * _OVGetEnvironment()
     {
         const char * environmentStr = "PRODUCTION";
@@ -41,5 +81,12 @@ extern "C" {
         strcpy(environmentStrCopy, environmentStr);
 
         return environmentStrCopy;
+    }
+    
+    extern bool _OVHandleConnectDeeplink(const char * deeplink) 
+    {
+        NSURL * deeplinkUrl = [NSURL URLWithString: NSSTRING(deeplink)];
+        
+        return [[OVLSdk sharedInstance] handleDeepLink: deeplinkUrl];
     }
 }

@@ -15,7 +15,11 @@ namespace OVSdk
         public void ConnectWallet(string userId)
         {
             ExecuteWithDelay(1f,
-                () => { AppConnectManagerCallbacks.Instance.ForwardOnStateUpdatedEvent("{\"status\": \"Connected\", \"walletAddress\": \"0x000TEST00WALLET000\"}"); });
+                () =>
+                {
+                    AppConnectManagerCallbacks.Instance.ForwardOnStateUpdatedEvent(
+                        "{\"status\": \"Connected\", \"walletAddress\": \"0x000TEST00WALLET000\"}");
+                });
         }
 
         /// <summary>
@@ -25,7 +29,11 @@ namespace OVSdk
         public void LoadConnectWalletView(string userId)
         {
             ExecuteWithDelay(3f,
-                () => { AppConnectManagerCallbacks.Instance.ForwardOnStateUpdatedEvent("{\"status\": \"Connected\", \"walletAddress\": \"0x000TEST00WALLET0000\"}"); });
+                () =>
+                {
+                    AppConnectManagerCallbacks.Instance.ForwardOnStateUpdatedEvent(
+                        "{\"status\": \"Connected\", \"walletAddress\": \"0x000TEST00WALLET0000\"}");
+                });
         }
 
         /// <summary>
@@ -43,7 +51,7 @@ namespace OVSdk
         public void DisconnectCurrentSession()
         {
             Logger.UserDebug("Wallet disconnected");
-            
+
             AppConnectManagerCallbacks.Instance.ForwardOnStateUpdatedEvent("{\"status\": \"Disconnected\"}");
         }
 
@@ -53,8 +61,19 @@ namespace OVSdk
         public void DisconnectAllSessions()
         {
             Logger.UserDebug("Wallet disconnected from all sessions");
-            
+
             AppConnectManagerCallbacks.Instance.ForwardOnStateUpdatedEvent("{\"status\": \"Disconnected\"}");
+        }
+
+        /// <summary>
+        /// Handle a deeplink that returns into the app connect flow
+        /// Returns <c>true</c> if OpenVessel connect was able to recognize and handle the link
+        /// </summary>
+        public bool HandleDeeplink(String deeplink)
+        {
+            Logger.UserDebug("Returning from a deeplink: " + deeplink);
+
+            return false;
         }
 
         private static void ExecuteWithDelay(float seconds, Action action)
