@@ -10,7 +10,7 @@
       <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
       <meta-data android:name="android.notch_support" android:value="true" />
     </activity>
-    <activity android:name="io.openvessel.wallet.sdk.activities.AppConnectDeeplinkActivity" android:exported="true">
+    <activity android:name="io.openvessel.wallet.sdk.activities.DeeplinkActivity" android:exported="true">
       <intent-filter>
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />

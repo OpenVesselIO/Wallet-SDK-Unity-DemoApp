@@ -46,4 +46,9 @@ extern "C" {
     {
         [[[OVLSdk sharedInstance] presentationController] openWalletApplication];
     }
+    
+    void _OVWalletVerifyWalletAddressInWalletApplication(const char * walletAddress)
+    {
+        [[[OVLSdk sharedInstance] presentationController] verifyWalletAddressInWalletApplication: NSSTRING(walletAddress)];
+    }
 }

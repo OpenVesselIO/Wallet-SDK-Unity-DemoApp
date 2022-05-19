@@ -62,6 +62,18 @@ namespace OVSdk
         [DllImport("__Internal")]
         private static extern string _OVGetEnvironment();
 
+        [DllImport("__Internal")]
+        private static extern bool _OVHandleDeeplink(string deeplink);
+
+        /// <summary>
+        /// Handle a deeplink that returns into the app connect flow
+        /// Returns <c>true</c> if OpenVessel connect was able to recognize and handle the link
+        /// </summary>
+        public bool HandleDeeplink(string deeplink)
+        {
+            return _OVHandleDeeplink(deeplink);
+        }
+
         /// <summary>
         /// Assign the environment that should be used for this SDK.
         /// <b>Please note</b>: the environment should be set before calling <code>Initialize()</code>

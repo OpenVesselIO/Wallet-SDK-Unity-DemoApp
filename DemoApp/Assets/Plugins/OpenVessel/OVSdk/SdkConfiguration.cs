@@ -8,6 +8,6 @@ namespace OVSdk
     {
         [SerializeField] public SdkLogLevel MinLogLevel = SdkLogLevel.Error;
 
-        [SerializeField] public string ConnectCallbackUrl;
+        [SerializeField] public string CallbackUrl;
     }
 }

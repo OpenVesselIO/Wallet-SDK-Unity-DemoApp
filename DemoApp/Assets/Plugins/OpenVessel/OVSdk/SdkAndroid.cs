@@ -85,6 +85,15 @@ namespace OVSdk
         {
             OvSdkPluginClass.CallStatic("loadWalletView");
         }
+        
+        /// <summary>
+        /// Handle a deeplink that returns into the app connect flow
+        /// Returns <c>true</c> if OpenVessel connect was able to recognize and handle the link
+        /// </summary>
+        public bool HandleDeeplink(string deeplink)
+        {
+            return OvSdkPluginClass.CallStatic<bool>("handleDeeplink", deeplink);
+        }
     }
 #endif
 }

@@ -1,7 +1,7 @@
 <dependencies>
   <packages>
-    <package>io.openvessel:sdk:1.5.1</package>
-    <package>io.openvessel:sdk-unity-plugin:1.5.1</package>
+    <package>io.openvessel:sdk:1.6.0</package>
+    <package>io.openvessel:sdk-unity-plugin:1.6.0</package>
   </packages>
   <files>
     <file>Assets/Plugins/Android/androidx.activity.activity-1.2.0.aar</file>
@@ -36,8 +36,8 @@
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-base-17.3.0.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-basement-17.3.0.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-tasks-17.1.0.aar</file>
-    <file>Assets/Plugins/Android/io.openvessel.sdk-1.5.1.aar</file>
-    <file>Assets/Plugins/Android/io.openvessel.sdk-unity-plugin-1.5.1.aar</file>
+    <file>Assets/Plugins/Android/io.openvessel.sdk-1.6.0.aar</file>
+    <file>Assets/Plugins/Android/io.openvessel.sdk-unity-plugin-1.6.0.aar</file>
     <file>Assets/Plugins/Android/org.apache.cordova.framework-7.0.0.aar</file>
   </files>
   <settings>

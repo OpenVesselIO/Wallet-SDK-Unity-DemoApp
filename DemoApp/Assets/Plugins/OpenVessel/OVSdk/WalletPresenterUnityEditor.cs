@@ -81,5 +81,17 @@ namespace OVSdk
         {
             Logger.UserDebug("Opening wallet application...");
         }
+
+        /// <summary>
+        /// Open wallet application to check if the user is logged in with the same address as provided.
+        ///
+        /// <p><b>Please note:</b> if verification fails current wallet will be disconnected</p> 
+        /// <p><b>Please note</b>: wallet activity will display only if user has connected their wallet to the app.
+        /// <p><b>Please note</b>: use <c>AppConnectManager</c> to connect wallet to this app
+        /// </summary>
+        public void VerifyWalletAddressInWalletApplication(string walletAddress)
+        {
+            Logger.UserDebug("Validating address '" + walletAddress + "'");
+        }
     }
 }

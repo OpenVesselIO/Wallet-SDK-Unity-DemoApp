@@ -55,5 +55,16 @@ namespace OVSdk
             AppConnectManagerCallbacks.Instance.ForwardOnStateUpdatedEvent("{\"status\": \"Disconnected\"}");
             SdkCallbacks.Instance.ForwardOnSdkInitializedEvent("");
         }
+        
+        /// <summary>
+        /// Handle a deeplink that returns into the app connect flow
+        /// Returns <c>true</c> if OpenVessel connect was able to recognize and handle the link
+        /// </summary>
+        public bool HandleDeeplink(string deeplink)
+        {
+            Logger.UserDebug("Returning from a deeplink: " + deeplink);
+
+            return false;
+        }
     }
 }

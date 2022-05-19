@@ -37,7 +37,7 @@ extern "C" {
         if ( jsonError == nullptr && configurationDict ) {
             
             OVLLogLevel minLogLevel = OVLLogLevelError;
-            NSURL * connectCallbackUrl = NULL;
+            NSURL * callbackUrl = NULL;
             
             if ([[configurationDict allKeys] containsObject: @"MinLogLevel"]) {
                 int minLogLevelInt = [configurationDict[@"MinLogLevel"] integerValue];
@@ -55,13 +55,13 @@ extern "C" {
                 }
             }
             
-            if ([configurationDict objectForKey: @"ConnectCallbackUrl"]) {
-                connectCallbackUrl = [NSURL URLWithString:[configurationDict objectForKey: @"ConnectCallbackUrl"]];
+            if ([configurationDict objectForKey: @"CallbackUrl"]) {
+                callbackUrl = [NSURL URLWithString:[configurationDict objectForKey: @"CallbackUrl"]];
             }
             
             OVLSdkConfiguration * configuration = [[OVLSdkConfiguration alloc] init];
             configuration.minLogLevel = minLogLevel;
-            configuration.connectCallbackUrl = connectCallbackUrl;
+            configuration.callbackUrl = callbackUrl;
             
             [[OVLSdk sharedInstance] setConfiguration: configuration];
         }
@@ -83,7 +83,7 @@ extern "C" {
         return environmentStrCopy;
     }
     
-    extern bool _OVHandleConnectDeeplink(const char * deeplink) 
+    extern bool _OVHandleDeeplink(const char * deeplink) 
     {
         NSURL * deeplinkUrl = [NSURL URLWithString: NSSTRING(deeplink)];
         
