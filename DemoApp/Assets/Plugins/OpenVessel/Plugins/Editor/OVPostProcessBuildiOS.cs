@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
+using System.Diagnostics;
 using UnityEditor.Callbacks;
 using UnityEditor.iOS.Xcode;
 
@@ -10,6 +11,8 @@ namespace OVSdk
 {
     public class OVPostProcessBuildiOS
     {
+        private const string CocoapodsPluginName = "cocoapods-openvessel";
+
         [PostProcessBuild(int.MaxValue)]
         public static void OvPostProcessPlist(BuildTarget buildTarget, string path)
         {
@@ -20,6 +23,21 @@ namespace OVSdk
             AddApplicationQueriesSchemesIfNeeded(plist);
             
             plist.WriteToFile(plistPath);
+        }
+
+        // must be between 40 and 50 to ensure that it's not overriden by Podfile generation (40) and that it's added before "pod install" (50)
+        [PostProcessBuildAttribute(45)] 
+        private static void OvPostProcessPodfile(BuildTarget target, string buildPath)
+        {
+            using (StreamWriter sw = File.AppendText(buildPath + "/Podfile"))
+            {
+                sw.WriteLine($"plugin '{CocoapodsPluginName}'");
+            }
+ 
+            using (var process = Process.Start("gem", $"install {CocoapodsPluginName}"))
+            {
+                process.WaitForExit();
+            }
         }
 
         private static void AddApplicationQueriesSchemesIfNeeded(PlistDocument plist)
