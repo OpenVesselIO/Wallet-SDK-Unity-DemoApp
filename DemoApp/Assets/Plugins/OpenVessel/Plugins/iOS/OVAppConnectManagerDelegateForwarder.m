@@ -61,6 +61,7 @@ extern "C" {
     NSDictionary * dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                                  [self unityStringFromStatus: state.status], @"status",
                                  (state.walletAddress != nil ? state.walletAddress : @""), @"walletAddress",
+                                 (state.accessToken != nil ? state.accessToken : @""), @"accessToken",                                 
                                  nil];
     
     NSError *error;

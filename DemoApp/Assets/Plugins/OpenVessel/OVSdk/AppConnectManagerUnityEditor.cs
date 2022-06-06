@@ -18,7 +18,7 @@ namespace OVSdk
                 () =>
                 {
                     AppConnectManagerCallbacks.Instance.ForwardOnStateUpdatedEvent(
-                        "{\"status\": \"Connected\", \"walletAddress\": \"0x000TEST00WALLET000\"}");
+                        "{\"status\": \"Connected\", \"walletAddress\": \"0x000TEST00WALLET000\", \"accessToken\": \"TEST_ACCESS_TOKEN\"}");
                 });
         }
 

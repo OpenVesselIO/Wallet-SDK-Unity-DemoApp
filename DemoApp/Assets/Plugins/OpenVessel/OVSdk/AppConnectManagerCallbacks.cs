@@ -11,6 +11,8 @@ namespace OVSdk
         [SerializeField] public string status;
 
         [SerializeField] public string walletAddress;
+
+        [SerializeField] public string accessToken;
     }
 
     public class AppConnectManagerCallbacks : MonoBehaviour
@@ -19,7 +21,10 @@ namespace OVSdk
 
         private static Action<AppConnectState> _onStateUpdatedEvent;
 
-        public AppConnectState State { get; private set; } = new AppConnectState(AppConnectStatus.NotInitialized, null);
+        public AppConnectState State { get; private set; } =
+            new AppConnectState(AppConnectStatus.NotInitialized,
+                null,
+                null);
 
         public static event Action<AppConnectState> OnStateUpdated
         {
@@ -46,7 +51,7 @@ namespace OVSdk
                 parsedStatus = AppConnectStatus.Error;
             }
 
-            State = new AppConnectState(parsedStatus, eventJson.walletAddress);
+            State = new AppConnectState(parsedStatus, eventJson.walletAddress, eventJson.accessToken);
             EventInvoker.InvokeEvent(_onStateUpdatedEvent, State);
         }
 
