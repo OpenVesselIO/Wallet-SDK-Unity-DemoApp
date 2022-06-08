@@ -1,7 +1,8 @@
 using System.Collections.Generic;
-using System.IO;
-using UnityEditor;
 using System.Diagnostics;
+using System.IO;
+using System.Text.RegularExpressions;
+using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.iOS.Xcode;
 
@@ -21,22 +22,70 @@ namespace OVSdk
             plist.ReadFromFile(plistPath);
 
             AddApplicationQueriesSchemesIfNeeded(plist);
-            
+
             plist.WriteToFile(plistPath);
         }
 
         // must be between 40 and 50 to ensure that it's not overriden by Podfile generation (40) and that it's added before "pod install" (50)
-        [PostProcessBuildAttribute(45)] 
+        [PostProcessBuild(45)] 
         private static void OvPostProcessPodfile(BuildTarget target, string buildPath)
         {
             using (StreamWriter sw = File.AppendText(buildPath + "/Podfile"))
             {
                 sw.WriteLine($"plugin '{CocoapodsPluginName}'");
             }
- 
-            using (var process = Process.Start("gem", $"install {CocoapodsPluginName}"))
+
+            using (var process = Process.Start("bash", $"-l -c 'gem install {CocoapodsPluginName}'"))
             {
                 process.WaitForExit();
+            }
+
+            if (!Regex.IsMatch(GetInstalledCocoapodsPlugins(), $"\\b{CocoapodsPluginName}\\b"))
+            {
+                var tmpFilePath = Path.GetTempFileName();
+
+                File.WriteAllText(
+                    tmpFilePath,
+                    "#!/bin/bash\n" +
+                    "ROOT_PPID=$(ps -o ppid= -p $PPID)\n" +
+                    "set -x\n" +
+                    $"sudo gem install {CocoapodsPluginName}\n" +
+                    "kill $(ps -o ppid= -p $ROOT_PPID)"
+                );
+
+                using (var process = Process.Start("chmod", $"+x {tmpFilePath}"))
+                {
+                    process.WaitForExit();
+                }
+
+                var startInfo = new ProcessStartInfo("open");
+                startInfo.Arguments = $"-W -F -n -a Terminal.app {tmpFilePath}";
+                startInfo.UseShellExecute = false;
+
+                using (var process = Process.Start(startInfo))
+                {
+                    process.WaitForExit();
+                }
+            }
+        }
+
+        private static string GetInstalledCocoapodsPlugins()
+        {
+            var startInfo = new ProcessStartInfo("bash");
+            startInfo.Arguments = "-l -c 'pod plugins installed'";
+            startInfo.UseShellExecute = false;
+            startInfo.RedirectStandardOutput = true;
+
+            using (var process = Process.Start(startInfo))
+            {
+                try
+                {
+                    return process.StandardOutput.ReadToEnd();
+                }
+                finally
+                {
+                    process.WaitForExit();
+                }
             }
         }
 
