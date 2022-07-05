@@ -33,6 +33,21 @@ namespace OVSdk
             using (StreamWriter sw = File.AppendText(buildPath + "/Podfile"))
             {
                 sw.WriteLine($"plugin '{CocoapodsPluginName}'");
+                sw.WriteLine(@"
+                    post_install do |installer|
+                        deployment_target_key = 'IPHONEOS_DEPLOYMENT_TARGET'
+
+                        installer.pods_project.targets.each do |pt|
+                            next if not pt.name.start_with?('Capacitor')
+
+                            pt.build_configurations.each do |config|
+                                if config.build_settings[deployment_target_key] < '13'
+                                    config.build_settings[deployment_target_key] = '13.0'
+                                end
+                            end
+                        end
+                    end
+                ");
             }
 
             using (var process = Process.Start("bash", $"-l -c 'gem install {CocoapodsPluginName}'"))
