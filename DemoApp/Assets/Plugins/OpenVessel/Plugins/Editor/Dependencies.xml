@@ -7,6 +7,10 @@
         <androidPackage spec="io.openvessel:sdk-unity-plugin:1.7.2"/>
         <androidPackage spec="io.openvessel:sdk:1.7.4"/>
         <androidPackage spec="com.capacitorjs:core:3.3.1"/>
+        <androidPackage spec="com.capacitorjs:app:1.0.6"/>
+        <androidPackage spec="com.capacitorjs:haptics:1.1.3"/>
+        <androidPackage spec="com.capacitorjs:keyboard:1.1.3"/>
+        <androidPackage spec="com.capacitorjs:status-bar:1.0.6"/>
     </androidPackages>
     <iosPods>
         <iosPod name="OpenVesselSDK" version="~> 1.7.4">
