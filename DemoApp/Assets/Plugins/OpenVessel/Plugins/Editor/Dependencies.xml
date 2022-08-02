@@ -4,7 +4,6 @@
         <repositories>
             <repository>https://artifacts.openvessel.io/maven/</repository>
         </repositories>
-        <androidPackage spec="io.openvessel:sdk-unity-plugin:1.8.0"/>
         <androidPackage spec="io.openvessel:sdk:1.8.1"/>
     </androidPackages>
     <iosPods>
