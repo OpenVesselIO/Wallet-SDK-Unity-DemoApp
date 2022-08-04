@@ -62,8 +62,6 @@ crashlytics-build.properties
 
 DemoApp/.idea/*
 
-*.meta
-
 DemoApp/[Ll]ibrary/
 DemoApp/[Tt]emp/
 DemoApp/[Oo]bj/
@@ -76,4 +74,6 @@ DemoApp/Assets/Plugins/Editor/JetBrains/*
 
 DemoApp/Assets/Plugins/OpenVessel/.idea/*
 DemoApp/Assets/Plugins/Android/*.aar
+DemoApp/Assets/Plugins/Android/*.aar.meta
 DemoApp/Assets/Plugins/Android/*.jar
+DemoApp/Assets/Plugins/Android/*.jar.meta
