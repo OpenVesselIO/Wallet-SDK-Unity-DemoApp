@@ -31,12 +31,19 @@ public class WalletConnection : MonoBehaviour
         _openWalletAppButton = GameObject.Find("BtnOpenWalletApp").GetComponent<Button>();
         _openWalletAppButton.onClick.AddListener(OpenWalletApplication);
 
-
         _statusText = GameObject.Find("TxtStatus").GetComponent<Text>();
         _statusText.text = "Starting...";
 
+        var environment = VesselEnvironment.Staging;
+#if OV_ENVIRONMENT_DEV
+        environment = VesselEnvironment.Development;
+#elif OV_ENVIRONMENT_STAGING
+        environment = VesselEnvironment.Staging;
+#elif OV_ENVIRONMENT_PROD
+        environment = VesselEnvironment.Production;
+#endif
 
-        OVSdk.Sdk.Environment = VesselEnvironment.Staging;
+        OVSdk.Sdk.Environment = environment;
         OVSdk.AppConnectManagerCallbacks.OnStateUpdated += RenderAppConnectState;
 
         OVSdk.Sdk.Configuration = new SdkConfiguration
