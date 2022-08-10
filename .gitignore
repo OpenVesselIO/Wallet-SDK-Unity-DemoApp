@@ -42,6 +42,7 @@ ExportedObj/
 *.mdb
 *.opendb
 *.VC.db
+.vsconfig
 
 # Unity3D generated meta files
 *.pidb.meta
@@ -77,3 +78,5 @@ DemoApp/Assets/Plugins/Android/*.aar
 DemoApp/Assets/Plugins/Android/*.aar.meta
 DemoApp/Assets/Plugins/Android/*.jar
 DemoApp/Assets/Plugins/Android/*.jar.meta
+
+DemoApp/ProjectSettings/AndroidResolverDependencies.xml
