@@ -6,8 +6,6 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.iOS.Xcode;
 
-#if UNITY_IOS || UNITY_IPHONE
-
 namespace OVSdk
 {
     public class OVPostProcessBuildiOS
@@ -17,6 +15,11 @@ namespace OVSdk
         [PostProcessBuild(int.MaxValue)]
         public static void OvPostProcessPlist(BuildTarget buildTarget, string path)
         {
+            if (BuildTarget.iOS != buildTarget)
+            {
+                return;
+            }
+
             var plistPath = Path.Combine(path, "Info.plist");
             var plist = new PlistDocument();
             plist.ReadFromFile(plistPath);
@@ -30,7 +33,12 @@ namespace OVSdk
         [PostProcessBuild(45)] 
         private static void OvPostProcessPodfile(BuildTarget target, string buildPath)
         {
-            using (StreamWriter sw = File.AppendText(buildPath + "/Podfile"))
+            if (BuildTarget.iOS != target)
+            {
+                return;
+            }
+
+            using (StreamWriter sw = File.AppendText(Path.Combine(buildPath, "Podfile")))
             {
                 sw.WriteLine($"plugin '{CocoapodsPluginName}'");
                 sw.WriteLine(@"
@@ -131,5 +139,3 @@ namespace OVSdk
         }
     }
 }
-
-#endif
