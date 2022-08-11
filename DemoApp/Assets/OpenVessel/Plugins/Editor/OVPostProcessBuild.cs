@@ -16,8 +16,6 @@ namespace OVSdk
 
         private const string CocoapodsPluginName = "cocoapods-openvessel";
 
-        private const string CallbackUrlHost = "callback";
-
         [PostProcessBuild(int.MaxValue)]
         public static void OvPostProcessPlist(BuildTarget buildTarget, string path)
         {
@@ -155,8 +153,12 @@ namespace OVSdk
                 }
 
                 var dataElement = manifest.CreateElement("data");
-                dataElement.SetAttribute("scheme", androidNamespaceUri, GetCallbackUrlScheme(BuildTargetGroup.Android));
-                dataElement.SetAttribute("host", androidNamespaceUri, CallbackUrlHost);
+                dataElement.SetAttribute(
+                    "scheme",
+                    androidNamespaceUri,
+                    Callback.GetDefaultCallbackUrlScheme(BuildTargetGroup.Android)
+                );
+                dataElement.SetAttribute("host", androidNamespaceUri, Callback.DefaultCallbackUrlHost);
 
                 intentFilterElement.AppendChild(dataElement);
                 intentFilterElement.AppendChild(actionElement);
@@ -213,11 +215,6 @@ namespace OVSdk
             }
         }
 
-        private static string GetCallbackUrlScheme(BuildTargetGroup targetGroup)
-        {
-            return $"io.openvessel.{PlayerSettings.GetApplicationIdentifier(targetGroup)}";
-        }
-
         private static void AddCustomUrlSchemesIfNeeded(PlistDocument plist)
         {
             const string urlTypesKey = "CFBundleURLTypes";
@@ -255,7 +252,7 @@ namespace OVSdk
                 urlTypes = plist.root.CreateArray(urlTypesKey);
             }
 
-            var scheme = GetCallbackUrlScheme(BuildTargetGroup.iOS);
+            var scheme = Callback.GetDefaultCallbackUrlScheme(BuildTargetGroup.iOS);
 
             if (!existingSchemes.Contains(scheme))
             {
