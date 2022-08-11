@@ -106,11 +106,18 @@ namespace OVSdk
             }
 
             const string activityElementName = "activity";
+            const string dataElementName = "data";
+            const string intentFilterElementName = "intent-filter";
+
             const string nameAttributeName = "name";
+            const string schemeAttributeName = "scheme";
+
             const string deepLinkHandlerActivityName = "io.openvessel.wallet.sdk.activities.DeeplinkActivity";
 
             const string androidNamespace = "android";
             const string androidNamespaceUri = "http://schemas.android.com/apk/res/android";
+
+            var callbackUrlScheme = Callback.GetDefaultCallbackUrlScheme(BuildTargetGroup.Android);
 
             var manifestPath = Path.Combine(path, "unityLibrary", "src", "main", "AndroidManifest.xml");
 
@@ -123,21 +130,34 @@ namespace OVSdk
 
             var applicationElement = (XmlElement)manifest.SelectSingleNode("/manifest/application");
 
-            var deepLinkHandlerActivityXPath = (
-                $"{activityElementName}[@{androidNamespace}:{nameAttributeName} = '{deepLinkHandlerActivityName}']"
+            var deepLinkHandlerActivityElement = (XmlElement)applicationElement.SelectSingleNode(
+                $"{activityElementName}[@{androidNamespace}:{nameAttributeName} = '{deepLinkHandlerActivityName}']",
+                namespaceManager
             );
 
-            if (applicationElement.SelectSingleNode(deepLinkHandlerActivityXPath, namespaceManager) == null)
+            if (deepLinkHandlerActivityElement == null)
             {
-                var deepLinkHandlerActivityElement = manifest.CreateElement(activityElementName);
+                deepLinkHandlerActivityElement = manifest.CreateElement(activityElementName);
+
+                applicationElement.AppendChild(deepLinkHandlerActivityElement);
+
                 deepLinkHandlerActivityElement.SetAttribute(
                     nameAttributeName,
                     androidNamespaceUri,
                     deepLinkHandlerActivityName
                 );
                 deepLinkHandlerActivityElement.SetAttribute("exported", androidNamespaceUri, "true");
+            }
 
-                var intentFilterElement = manifest.CreateElement("intent-filter");
+            var intentFilterDataXPath = (
+                $"{intentFilterElementName}/{dataElementName}[@{androidNamespace}:{schemeAttributeName} = '{callbackUrlScheme}']"
+            );
+
+            if (deepLinkHandlerActivityElement.SelectSingleNode(intentFilterDataXPath, namespaceManager) == null)
+            {
+                var intentFilterElement = manifest.CreateElement(intentFilterElementName);
+
+                deepLinkHandlerActivityElement.AppendChild(intentFilterElement);
 
                 var actionElement = manifest.CreateElement("action");
                 actionElement.SetAttribute(nameAttributeName, androidNamespaceUri, "android.intent.action.VIEW");
@@ -152,18 +172,12 @@ namespace OVSdk
                     intentFilterElement.AppendChild(categoryElement);
                 }
 
-                var dataElement = manifest.CreateElement("data");
-                dataElement.SetAttribute(
-                    "scheme",
-                    androidNamespaceUri,
-                    Callback.GetDefaultCallbackUrlScheme(BuildTargetGroup.Android)
-                );
+                var dataElement = manifest.CreateElement(dataElementName);
+                dataElement.SetAttribute(schemeAttributeName, androidNamespaceUri, callbackUrlScheme);
                 dataElement.SetAttribute("host", androidNamespaceUri, Callback.DefaultCallbackUrlHost);
 
                 intentFilterElement.AppendChild(dataElement);
                 intentFilterElement.AppendChild(actionElement);
-                deepLinkHandlerActivityElement.AppendChild(intentFilterElement);
-                applicationElement.AppendChild(deepLinkHandlerActivityElement);
 
                 manifest.Save(manifestPath);
             }
