@@ -14,6 +14,8 @@ namespace OVSdk
     public class OVPostProcessBuildiOS
     {
 
+        private const string VesselAppUrlScheme = "vesselwa";
+
         private const string CocoapodsPluginName = "cocoapods-openvessel";
 
         [PostProcessBuild(int.MaxValue)]
@@ -128,12 +130,12 @@ namespace OVSdk
             var namespaceManager = new XmlNamespaceManager(manifest.NameTable);
             namespaceManager.AddNamespace(androidNamespace, androidNamespaceUri);
 
-            var applicationElement = (XmlElement)manifest.SelectSingleNode("/manifest/application");
+            var applicationElement = manifest.SelectSingleNode("/manifest/application") as XmlElement;
 
-            var deepLinkHandlerActivityElement = (XmlElement)applicationElement.SelectSingleNode(
+            var deepLinkHandlerActivityElement = applicationElement.SelectSingleNode(
                 $"{activityElementName}[@{androidNamespace}:{nameAttributeName} = '{deepLinkHandlerActivityName}']",
                 namespaceManager
-            );
+            ) as XmlElement;
 
             if (deepLinkHandlerActivityElement == null)
             {
@@ -205,27 +207,33 @@ namespace OVSdk
 
         private static void AddApplicationQueriesSchemesIfNeeded(PlistDocument plist)
         {
-            plist.root.values.TryGetValue("LSApplicationQueriesSchemes", out var applicationQueriesSchemesItems);
+            const string appQueriesSchemesKey = "LSApplicationQueriesSchemes";
+
+            plist.root.values.TryGetValue(appQueriesSchemesKey, out var applicationQueriesSchemesItems);
 
             var existingApplicationQueryScheme = new HashSet<string>();
-            if (applicationQueriesSchemesItems != null &&
-                applicationQueriesSchemesItems.GetType() == typeof(PlistElementArray))
+
+            if (applicationQueriesSchemesItems is PlistElementArray)
             {
                 var plistElementDictionaries = applicationQueriesSchemesItems.AsArray().values;
+
                 foreach (var plistElement in plistElementDictionaries)
                 {
-                    existingApplicationQueryScheme.Add(plistElement.AsString());
+                    if (plistElement is PlistElementString)
+                    {
+                        existingApplicationQueryScheme.Add(plistElement.AsString());
+                    }
                 }
             }
             // Else, create an array of LSApplicationQueriesSchemes into which we will add our deeplink.
             else
             {
-                applicationQueriesSchemesItems = plist.root.CreateArray("LSApplicationQueriesSchemes");
+                applicationQueriesSchemesItems = plist.root.CreateArray(appQueriesSchemesKey);
             }
 
-            if (!existingApplicationQueryScheme.Contains("vesselwa"))
+            if (!existingApplicationQueryScheme.Contains(VesselAppUrlScheme))
             {
-                applicationQueriesSchemesItems.AsArray().AddString("vesselwa");
+                applicationQueriesSchemesItems.AsArray().AddString(VesselAppUrlScheme);
             }
         }
 
@@ -238,21 +246,21 @@ namespace OVSdk
 
             var existingSchemes = new HashSet<string>();
 
-            if (urlTypes != null && urlTypes.GetType() == typeof(PlistElementArray))
+            if (urlTypes is PlistElementArray)
             {
                 var plistElementDictionaries = urlTypes.AsArray().values;
 
                 foreach (var plistElementDict in plistElementDictionaries)
                 {
-                    if (plistElementDict.GetType() == typeof(PlistElementDict))
+                    if (plistElementDict is PlistElementDict)
                     {
-                        var schemes = plistElementDict.AsDict().values[schemesKey];
+                        plistElementDict.AsDict().values.TryGetValue(schemesKey, out var schemes);
 
-                        if (schemes != null && schemes.GetType() == typeof(PlistElementArray))
+                        if (schemes is PlistElementArray)
                         {
                             foreach (var existingScheme in schemes.AsArray().values)
                             {
-                                if (existingScheme.GetType() == typeof(PlistElementString))
+                                if (existingScheme is PlistElementString)
                                 {
                                     existingSchemes.Add(existingScheme.AsString());
                                 }
