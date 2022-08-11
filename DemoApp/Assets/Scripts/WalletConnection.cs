@@ -46,11 +46,11 @@ public class WalletConnection : MonoBehaviour
         OVSdk.Sdk.Environment = environment;
         OVSdk.AppConnectManagerCallbacks.OnStateUpdated += RenderAppConnectState;
 
-        OVSdk.Sdk.Configuration = new SdkConfiguration
-        {
-            MinLogLevel = SdkLogLevel.Debug,
-            CallbackUrl = "vesseldemo://connect"
-        };
+        // OVSdk.Sdk.Configuration = new SdkConfiguration
+        // {
+        //     MinLogLevel = SdkLogLevel.Debug,
+        //     CallbackUrl = $"io.openvessel.{Application.identifier}://callback"
+        // };
 
         Debug.Log("Initializing the SDK...");
         OVSdk.Sdk.Initialize(USER_ID);
