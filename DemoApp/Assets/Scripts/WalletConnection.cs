@@ -48,8 +48,7 @@ public class WalletConnection : MonoBehaviour
 
         OVSdk.Sdk.Configuration = new SdkConfiguration
         {
-            MinLogLevel = SdkLogLevel.Debug,
-            CallbackUrl = "vesseldemo://connect"
+            MinLogLevel = SdkLogLevel.Debug
         };
 
         Debug.Log("Initializing the SDK...");
