@@ -120,6 +120,21 @@ namespace OVSdk
         {
             _OVWalletVerifyWalletAddressInWalletApplication(walletAddress);
         }
+
+        [DllImport("__Internal")]
+        private static extern void _OVWalletLoadBalanceInWalletApplication(string walletAddress);
+
+        /// <summary>
+        /// Open a wallet application on the load balance page.
+        ///
+        /// <p><b>Please note:</b> if verification fails balance will not be loaded</p>
+        /// <p><b>Please note</b>: wallet activity will display only if user has connected their wallet to the app.
+        /// <p><b>Please note</b>: use <c>AppConnectManager</c> to connect wallet to this app
+        /// </summary>
+        public void LoadBalanceInWalletApplication(string walletAddress)
+        {
+            _OVWalletLoadBalanceInWalletApplication(walletAddress);
+        }
     }
 #endif
 }
