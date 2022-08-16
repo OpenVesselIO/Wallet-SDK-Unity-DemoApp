@@ -137,7 +137,7 @@ namespace OVSdk
         }
 
         [DllImport("__Internal")]
-        private static extern void _OVWalletLoadBalanceByAmountInWalletApplication(string walletAddress);
+        private static extern void _OVWalletLoadBalanceByAmountInWalletApplication(string walletAddress, int amount);
 
         /// <summary>
         /// Open a wallet application on the load balance by specified amount page.
