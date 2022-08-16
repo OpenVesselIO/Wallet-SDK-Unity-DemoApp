@@ -67,4 +67,10 @@ public class WalletPresenterPlugin
         sdk.getWalletPresenter().loadBalanceInWalletApplication( walletAddress, currentActivity );
     }
 
+    public static void loadBalanceByAmountInWalletApplication(final String walletAddress, final int amount)
+    {
+        final VesselSdk sdk = VesselSdk.getInstance( currentActivity );
+        sdk.getWalletPresenter().loadBalanceInWalletApplication( walletAddress, amount, currentActivity );
+    }
+
 }

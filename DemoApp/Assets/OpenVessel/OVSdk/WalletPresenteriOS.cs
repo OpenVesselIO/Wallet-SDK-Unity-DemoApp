@@ -135,6 +135,18 @@ namespace OVSdk
         {
             _OVWalletLoadBalanceInWalletApplication(walletAddress);
         }
+
+        /// <summary>
+        /// Open a wallet application on the load balance by specified amount page.
+        ///
+        /// <p><b>Please note:</b> if verification fails balance will not be loaded</p>
+        /// <p><b>Please note</b>: wallet activity will display only if user has connected their wallet to the app.
+        /// <p><b>Please note</b>: use <c>AppConnectManager</c> to connect wallet to this app
+        /// </summary>
+        public void LoadBalanceInWalletApplication(string walletAddress, int amount)
+        {
+            _OVWalletLoadBalanceByAmountInWalletApplication(walletAddress, amount);
+        }
     }
 #endif
 }

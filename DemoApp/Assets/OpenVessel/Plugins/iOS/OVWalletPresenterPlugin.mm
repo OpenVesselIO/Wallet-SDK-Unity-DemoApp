@@ -57,4 +57,9 @@ extern "C" {
         [[[OVLSdk sharedInstance] presentationController] loadBalanceInWalletApplication: NSSTRING(walletAddress)];
     }
 
+    void _OVWalletLoadBalanceByAmountInWalletApplication(const char * walletAddress, int32_t amount)
+    {
+        [[[OVLSdk sharedInstance] presentationController] loadBalanceInWalletApplication: NSSTRING(walletAddress) byAmount: amount];
+    }
+
 }
