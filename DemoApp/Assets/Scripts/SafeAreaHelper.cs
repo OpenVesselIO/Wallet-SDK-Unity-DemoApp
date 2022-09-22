@@ -11,7 +11,6 @@ public class SafeAreaHelper : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
     }
 
-    //private void Update()
     private void OnGUI()
     {
         var safeArea = Screen.safeArea;
