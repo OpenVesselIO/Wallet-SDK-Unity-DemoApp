@@ -6,32 +6,27 @@ public class WalletConnection : MonoBehaviour
 {
     private const string USER_ID = "<Unique User ID of your application>";
 
-    private Button _connectButton;
-    private Button _disconnectButton;
-    private Button _showWalletButton;
-    private Button _openWalletAppButton;
-    private Text _statusText;
+    OVSdk.AppConnectState _appConnectState;
+
+    public Button _presentConnectButton;
+    public Button _connectButton;
+    public Text _statusText;
+
+    public InputField _fqtnInputField;
+    public InputField _fqcnInputField;
+    public InputField _fqgnInputField;
+
+    public InputField _loadBalanceAmountInputField;
 
     void Start()
     {
         Debug.Log("Starting...");
 
-        _connectButton = GameObject.Find("BtnConnect").GetComponent<Button>();
-        _connectButton.onClick.AddListener(ConnectWallet);
-        _connectButton.enabled = false;
+        UpdateButtons(false);
 
-        _disconnectButton = GameObject.Find("BtnDisconnect").GetComponent<Button>();
-        _disconnectButton.onClick.AddListener(DisconnectWallet);
-        _disconnectButton.enabled = false;
+        _connectButton.interactable = false;
+        _presentConnectButton.interactable = false;
 
-        _showWalletButton = GameObject.Find("BtnShowWallet").GetComponent<Button>();
-        _showWalletButton.onClick.AddListener(ShowWallet);
-        _showWalletButton.enabled = false;
-
-        _openWalletAppButton = GameObject.Find("BtnOpenWalletApp").GetComponent<Button>();
-        _openWalletAppButton.onClick.AddListener(OpenWalletApplication);
-
-        _statusText = GameObject.Find("TxtStatus").GetComponent<Text>();
         _statusText.text = "Starting...";
 
         var environment = VesselEnvironment.Staging;
@@ -44,7 +39,7 @@ public class WalletConnection : MonoBehaviour
 #endif
 
         OVSdk.Sdk.Environment = environment;
-        OVSdk.AppConnectManagerCallbacks.OnStateUpdated += RenderAppConnectState;
+        OVSdk.AppConnectManagerCallbacks.OnStateUpdated += HandleAppConnectState;
 
         OVSdk.Sdk.Configuration = new SdkConfiguration
         {
@@ -55,33 +50,124 @@ public class WalletConnection : MonoBehaviour
         OVSdk.Sdk.Initialize(USER_ID);
     }
 
-    private void ConnectWallet()
+    public void PresentConnect()
     {
         Debug.Log("Connecting wallet...");
         OVSdk.Sdk.AppConnectManager.LoadConnectWalletView(USER_ID);
     }
 
-    private void DisconnectWallet()
+    public void ConnectWallet()
+    {
+        foreach (var button in GetComponentsInChildren<Button>())
+        {
+            button.interactable = false;
+        }
+
+        Debug.Log("Connecting wallet...");
+        OVSdk.Sdk.AppConnectManager.ConnectWallet(USER_ID);
+    }
+
+    public void DisconnectCurrent()
     {
         Debug.Log("Disconnecting wallet...");
         OVSdk.Sdk.AppConnectManager.DisconnectCurrentSession();
     }
 
-    private void ShowWallet()
+    public void DisconnectAll()
+    {
+        Debug.Log("Disconnecting wallet...");
+        OVSdk.Sdk.AppConnectManager.DisconnectAllSessions();
+    }
+
+    public void ShowWallet()
     {
         Debug.Log("Showing wallet inside of the current application...");
         OVSdk.Sdk.WalletPresenter.ShowWallet();
     }
 
-    private void OpenWalletApplication()
+    public void OpenWalletApplication()
     {
         Debug.Log("Opening wallet application...");
         OVSdk.Sdk.WalletPresenter.OpenWalletApplication();
     }
 
-    private void RenderAppConnectState(OVSdk.AppConnectState state)
+    public void ShowToken()
+    {
+        Debug.Log("Showing a token inside of the current application...");
+        OVSdk.Sdk.WalletPresenter.ShowToken(_fqtnInputField.text);
+    }
+
+    public void OpenTokenInWalletApplication()
+    {
+        Debug.Log("Opening a token in wallet application...");
+        OVSdk.Sdk.WalletPresenter.OpenTokenInWalletApplication(_fqtnInputField.text);
+    }
+
+    public void ShowCollection()
+    {
+        Debug.Log("Showing a collection inside of the current application...");
+        OVSdk.Sdk.WalletPresenter.ShowCollection(_fqcnInputField.text);
+    }
+
+    public void OpenCollectionInWalletApplication()
+    {
+        Debug.Log("Opening a collection in wallet application...");
+        OVSdk.Sdk.WalletPresenter.OpenCollectionInWalletApplication(_fqcnInputField.text);
+    }
+
+    public void ShowGame()
+    {
+        Debug.Log("Showing a game inside of the current application...");
+        OVSdk.Sdk.WalletPresenter.ShowGame(_fqgnInputField.text);
+    }
+
+    public void OpenGameInWalletApplication()
+    {
+        Debug.Log("Opening a game in wallet application...");
+        OVSdk.Sdk.WalletPresenter.OpenGameInWalletApplication(_fqgnInputField.text);
+    }
+
+    public void VerifyWalletAddress()
+    {
+        var walletAddress = _appConnectState?.WalletAddress;
+
+        if (walletAddress != null)
+        {
+            Debug.Log("Verifying wallet address '" + walletAddress + "' in wallet application...");
+            OVSdk.Sdk.WalletPresenter.VerifyWalletAddressInWalletApplication(_appConnectState.WalletAddress);
+        }
+    }
+
+    public void LoadBalance()
+    {
+        var walletAddress = _appConnectState?.WalletAddress;
+
+        if (walletAddress == null)
+        {
+            return;
+        }
+
+        var amountStr = _loadBalanceAmountInputField.text;
+
+        if (amountStr.Length == 0)
+        {
+            Debug.Log("Loading balance for '" + walletAddress + "'");
+            OVSdk.Sdk.WalletPresenter.LoadBalanceInWalletApplication(walletAddress);
+        }
+        else
+        {
+            var amount = int.Parse(amountStr);
+
+            Debug.Log("Loading balance for '" + walletAddress + "' by " + amount);
+            OVSdk.Sdk.WalletPresenter.LoadBalanceInWalletApplication(walletAddress, amount);
+        }
+    }
+
+    private void HandleAppConnectState(OVSdk.AppConnectState state)
     {
         Debug.Log("Got new wallet state: " + state);
+
+        _appConnectState = state;
 
         var isConnected = state.Status == OVSdk.AppConnectStatus.Connected;
         if (isConnected)
@@ -93,8 +179,25 @@ public class WalletConnection : MonoBehaviour
             _statusText.text = "Error: " + state.Status + "\n(" + OVSdk.Sdk.Environment + ")";
         }
 
-        _connectButton.enabled = !isConnected;
-        _disconnectButton.enabled = isConnected;
-        _showWalletButton.enabled = isConnected;
+        UpdateButtons(isConnected);
     }
+
+    private void UpdateButtons(bool isConnected)
+    {
+        foreach (var button in GetComponentsInChildren<Button>())
+        {
+            if (button.name.StartsWith("BtnOpen"))
+            {
+                button.interactable = true;
+            }
+            else
+            {
+                button.interactable = isConnected;
+            }
+        }
+
+        _presentConnectButton.interactable = !isConnected;
+        _connectButton.interactable = !isConnected;
+    }
+
 }
