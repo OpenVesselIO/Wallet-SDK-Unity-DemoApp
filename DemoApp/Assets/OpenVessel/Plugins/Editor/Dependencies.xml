@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <dependencies>
-    <androidPackages>
-        <repositories>
-            <repository>https://artifacts.openvessel.io/maven/</repository>
-            <repository>https://jcenter.bintray.com/</repository>
-        </repositories>
-        <androidPackage spec="io.openvessel:sdk:1.10.+"/>
-    </androidPackages>
-    <iosPods>
-        <iosPod name="OpenVesselSDK" version="~> 1.10.0">
-            <sources>
-                <source>https://github.com/OpenVesselIO/Wallet-Pods-iOS.git</source>
-            </sources>
-        </iosPod>
-    </iosPods>
+  <androidPackages>
+    <repositories>
+      <repository>https://artifacts.openvessel.io/maven/</repository>
+      <repository>https://jcenter.bintray.com/</repository>
+    </repositories>
+    <androidPackage spec="io.openvessel:sdk:1.11.+"/>
+  </androidPackages>
+  <iosPods>
+    <iosPod name="OpenVesselSDK" version="~&gt; 1.11.0">
+      <sources>
+        <source>https://github.com/OpenVesselIO/Wallet-Pods-iOS.git</source>
+      </sources>
+    </iosPod>
+  </iosPods>
 </dependencies>
