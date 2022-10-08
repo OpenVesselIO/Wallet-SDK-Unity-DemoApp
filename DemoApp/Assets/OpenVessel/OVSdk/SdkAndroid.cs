@@ -92,7 +92,7 @@ namespace OVSdk
         /// </summary>
         public bool HandleDeeplink(string deeplink)
         {
-            return OvSdkPluginClass.CallStatic<bool>("handleDeeplink", deeplink);
+            return false;
         }
     }
 #endif

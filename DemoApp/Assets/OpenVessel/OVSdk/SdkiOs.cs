@@ -54,6 +54,13 @@ namespace OVSdk
         public static void Initialize(string userId)
         {
             _OVInitialize(userId);
+
+            Application.deepLinkActivated += OnDeepLinkActivated;
+
+            if (!string.IsNullOrEmpty(Application.absoluteURL))
+            {
+                OnDeepLinkActivated(Application.absoluteURL);
+            }
         }
 
         [DllImport("__Internal")]
@@ -71,7 +78,12 @@ namespace OVSdk
         /// </summary>
         public bool HandleDeeplink(string deeplink)
         {
-            return _OVHandleDeeplink(deeplink);
+            return false;
+        }
+
+        private static void OnDeepLinkActivated(string url)
+        {
+            _OVHandleDeeplink(url);
         }
 
         /// <summary>
