@@ -121,6 +121,15 @@ namespace OVSdk
         {
             OvPluginClass.CallStatic("loadBalanceByAmountInWalletApplication", walletAddress, amount);
         }
+
+        /// <summary>
+        /// Open a wallet application and present a transaction to confirm.
+        /// </summary>
+        public void ConfirmTransactionInWalletApplication(string transactionId)
+        {
+            OvPluginClass.CallStatic("confirmTransactionInWalletApplication", transactionId);
+        }
+
     }
 #endif
 }

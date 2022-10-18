@@ -107,7 +107,7 @@ namespace OVSdk
         }
 
         [DllImport("__Internal")]
-        private static extern void _OVWalletVerifyWalletAddressInWalletApplication(string walletAddress);
+        private static extern void _OVWalletPresenterVerifyWalletAddressInWalletApplication(string walletAddress);
 
         /// <summary>
         /// Open wallet application to check if the user is logged in with the same address as provided.
@@ -118,11 +118,11 @@ namespace OVSdk
         /// </summary>
         public void VerifyWalletAddressInWalletApplication(string walletAddress)
         {
-            _OVWalletVerifyWalletAddressInWalletApplication(walletAddress);
+            _OVWalletPresenterVerifyWalletAddressInWalletApplication(walletAddress);
         }
 
         [DllImport("__Internal")]
-        private static extern void _OVWalletLoadBalanceInWalletApplication(string walletAddress);
+        private static extern void _OVWalletPresenterLoadBalanceInWalletApplication(string walletAddress);
 
         /// <summary>
         /// Open a wallet application on the load balance page.
@@ -133,11 +133,11 @@ namespace OVSdk
         /// </summary>
         public void LoadBalanceInWalletApplication(string walletAddress)
         {
-            _OVWalletLoadBalanceInWalletApplication(walletAddress);
+            _OVWalletPresenterLoadBalanceInWalletApplication(walletAddress);
         }
 
         [DllImport("__Internal")]
-        private static extern void _OVWalletLoadBalanceByAmountInWalletApplication(string walletAddress, int amount);
+        private static extern void _OVWalletPresenterLoadBalanceByAmountInWalletApplication(string walletAddress, int amount);
 
         /// <summary>
         /// Open a wallet application on the load balance by specified amount page.
@@ -148,7 +148,18 @@ namespace OVSdk
         /// </summary>
         public void LoadBalanceInWalletApplication(string walletAddress, int amount)
         {
-            _OVWalletLoadBalanceByAmountInWalletApplication(walletAddress, amount);
+            _OVWalletPresenterLoadBalanceByAmountInWalletApplication(walletAddress, amount);
+        }
+
+        [DllImport("__Internal")]
+        private static extern void _OVWalletPresenterConfirmTransactionInWalletApplication(string transactionId);
+
+        /// <summary>
+        /// Open a wallet application and present a transaction to confirm.
+        /// </summary>
+        public void ConfirmTransactionInWalletApplication(string transactionId)
+        {
+            _OVWalletPresenterConfirmTransactionInWalletApplication(transactionId);
         }
     }
 #endif

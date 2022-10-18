@@ -47,19 +47,24 @@ extern "C" {
         [[[OVLSdk sharedInstance] presentationController] openWalletApplication];
     }
     
-    void _OVWalletVerifyWalletAddressInWalletApplication(const char * walletAddress)
+    void _OVWalletPresenterVerifyWalletAddressInWalletApplication(const char * walletAddress)
     {
         [[[OVLSdk sharedInstance] presentationController] verifyWalletAddressInWalletApplication: NSSTRING(walletAddress)];
     }
 
-    void _OVWalletLoadBalanceInWalletApplication(const char * walletAddress)
+    void _OVWalletPresenterLoadBalanceInWalletApplication(const char * walletAddress)
     {
         [[[OVLSdk sharedInstance] presentationController] loadBalanceInWalletApplication: NSSTRING(walletAddress)];
     }
 
-    void _OVWalletLoadBalanceByAmountInWalletApplication(const char * walletAddress, int32_t amount)
+    void _OVWalletPresenterLoadBalanceByAmountInWalletApplication(const char * walletAddress, int32_t amount)
     {
         [[[OVLSdk sharedInstance] presentationController] loadBalanceInWalletApplication: NSSTRING(walletAddress) byAmount: amount];
+    }
+
+    void _OVWalletPresenterConfirmTransactionInWalletApplication(const char * transactionId)
+    {
+        [[[OVLSdk sharedInstance] presentationController] confirmTransactionInWalletApplication: NSSTRING(transactionId)];
     }
 
 }

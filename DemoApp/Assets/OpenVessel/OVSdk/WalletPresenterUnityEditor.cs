@@ -117,5 +117,13 @@ namespace OVSdk
         {
             Logger.UserDebug("Loading balance for '" + walletAddress + "' by " + amount);
         }
+
+        /// <summary>
+        /// Open a wallet application and present a transaction to confirm.
+        /// </summary>
+        public void ConfirmTransactionInWalletApplication(string transactionId)
+        {
+            Logger.UserDebug("Opening wallet application with transaction id '" + transactionId + "'");
+        }
     }
 }
