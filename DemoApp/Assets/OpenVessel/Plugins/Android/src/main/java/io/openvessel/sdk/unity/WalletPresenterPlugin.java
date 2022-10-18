@@ -76,7 +76,7 @@ public class WalletPresenterPlugin
     public static void confirmTransactionInWalletApplication(final String transactionId)
     {
         final VesselSdk sdk = VesselSdk.getInstance( currentActivity );
-        sdk.getWalletPresenter().confirmTransactionInWalletApplication( transactionId );
+        sdk.getWalletPresenter().confirmTransactionInWalletApplication( transactionId, currentActivity );
     }
 
 }
