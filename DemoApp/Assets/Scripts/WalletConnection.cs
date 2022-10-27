@@ -6,7 +6,7 @@ public class WalletConnection : MonoBehaviour
 {
     private const string USER_ID = "<Unique User ID of your application>";
 
-    OVSdk.AppConnectState _appConnectState;
+    private OVSdk.AppConnectState _appConnectState;
 
     public Button _presentConnectButton;
     public Button _connectButton;
@@ -17,6 +17,9 @@ public class WalletConnection : MonoBehaviour
     public InputField _fqgnInputField;
 
     public InputField _loadBalanceAmountInputField;
+
+    private int _walletShowCallCount;
+    private int _walletDismissCallCount;
 
     void Start()
     {
@@ -40,6 +43,8 @@ public class WalletConnection : MonoBehaviour
 
         OVSdk.Sdk.Environment = environment;
         OVSdk.AppConnectManagerCallbacks.OnStateUpdated += HandleAppConnectState;
+        OVSdk.WalletPresenterCallbacks.OnWalletShow += HandleWalletShow;
+        OVSdk.WalletPresenterCallbacks.OnWalletDismiss += HandleWalletDismiss;
 
         OVSdk.Sdk.Configuration = new SdkConfiguration
         {
@@ -169,17 +174,44 @@ public class WalletConnection : MonoBehaviour
 
         _appConnectState = state;
 
-        var isConnected = state.Status == OVSdk.AppConnectStatus.Connected;
+        UpdateStatusText();
+        UpdateButtons(state.Status == OVSdk.AppConnectStatus.Connected);
+    }
+
+    private void HandleWalletShow()
+    {
+        _walletShowCallCount++;
+
+        UpdateStatusText();
+    }
+
+    private void HandleWalletDismiss()
+    {
+        _walletDismissCallCount++;
+
+        UpdateStatusText();
+    }
+
+    private void UpdateStatusText()
+    {
+        var isConnected = _appConnectState.Status == OVSdk.AppConnectStatus.Connected;
+        var statusText = "";
+
         if (isConnected)
         {
-            _statusText.text = "Wallet: " + state.WalletAddress + "\n(" + OVSdk.Sdk.Environment + ")";
+            statusText = "Wallet: " + _appConnectState.WalletAddress;
         }
         else
         {
-            _statusText.text = "Error: " + state.Status + "\n(" + OVSdk.Sdk.Environment + ")";
+            statusText = "Error: " + _appConnectState.Status;
         }
 
-        UpdateButtons(isConnected);
+        statusText += "\n";
+        statusText += "(" + OVSdk.Sdk.Environment + ")";
+        statusText += "\n";
+        statusText += $"Wallet Show/Dismiss: {_walletShowCallCount}/{_walletDismissCallCount}";
+
+        _statusText.text = statusText;
     }
 
     private void UpdateButtons(bool isConnected)
