@@ -5,6 +5,7 @@
 #import "OVSdkPluginUtils.h"
 #import "OVSdkPluginDelegateForwarder.h"
 #import "OVAppConnectManagerDelegateForwarder.h"
+#import "OVWalletPresenterPluginDelegateForwarder.h"
 
 extern "C" {
         
@@ -12,6 +13,7 @@ extern "C" {
     {
         [[OVSdkPluginDelegateForwarder sharedInstance] attachDelegate];
         [[OVAppConnectManagerDelegateForwarder sharedInstance] attachDelegate];
+        [[OVWalletPresenterPluginDelegateForwarder sharedInstance] attachDelegate];
         
         [[OVLSdk sharedInstance] startWithUserId: NSSTRING(userId)];
     }

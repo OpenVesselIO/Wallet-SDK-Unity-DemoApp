@@ -56,7 +56,7 @@ public class AppConnectManagerPlugin
     static void initialize()
     {
         final VesselSdk sdk = VesselSdk.getInstance( currentActivity );
-        VesselSdk.getInstance( currentActivity ).getAppConnectManager().setAppConnectListener( forwardingListener );
+        sdk.getAppConnectManager().setAppConnectListener( forwardingListener );
     }
 
     private static class ForwardingAppConnectListener

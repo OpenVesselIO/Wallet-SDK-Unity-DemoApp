@@ -2,11 +2,21 @@ package io.openvessel.sdk.unity;
 
 
 import io.openvessel.wallet.sdk.VesselSdk;
+import io.openvessel.wallet.sdk.WalletPresenterListener;
 
 import static com.unity3d.player.UnityPlayer.currentActivity;
 
 public class WalletPresenterPlugin
 {
+
+    private static final WalletPresenterListener forwardingListener = new ForwardingWalletPresenterListener();
+
+    static void initialize()
+    {
+        final VesselSdk sdk = VesselSdk.getInstance( currentActivity );
+        sdk.getWalletPresenter().setListener( forwardingListener );
+    }
+
     public static void openWalletApplication()
     {
         final VesselSdk sdk = VesselSdk.getInstance( currentActivity );
@@ -77,6 +87,26 @@ public class WalletPresenterPlugin
     {
         final VesselSdk sdk = VesselSdk.getInstance( currentActivity );
         sdk.getWalletPresenter().confirmTransactionInWalletApplication( transactionId, currentActivity );
+    }
+
+    private static class ForwardingWalletPresenterListener
+            implements WalletPresenterListener
+    {
+
+        private static final String CallbacksClassName = "OVWalletPresenterCallbacks";
+
+        @Override
+        public void onWalletShow()
+        {
+            AsyncTask.THREAD_POOL_EXECUTOR.execute( () -> UnityPlayer.UnitySendMessage( CallbacksClassName, "ForwardOnWalletShowEvent", "" ) );
+        }
+
+        @Override
+        public void onWalletDismiss()
+        {
+            AsyncTask.THREAD_POOL_EXECUTOR.execute( () -> UnityPlayer.UnitySendMessage( CallbacksClassName, "ForwardOnWalletDismissEvent", "" ) );
+        }
+
     }
 
 }
