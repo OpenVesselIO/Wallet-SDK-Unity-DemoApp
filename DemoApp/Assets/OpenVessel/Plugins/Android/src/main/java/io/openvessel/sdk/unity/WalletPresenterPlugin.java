@@ -1,5 +1,8 @@
 package io.openvessel.sdk.unity;
 
+import android.os.AsyncTask;
+
+import com.unity3d.player.UnityPlayer;
 
 import io.openvessel.wallet.sdk.VesselSdk;
 import io.openvessel.wallet.sdk.WalletPresenterListener;
