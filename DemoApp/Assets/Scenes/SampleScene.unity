@@ -737,7 +737,7 @@ MonoBehaviour:
   m_MinWidth: -1
   m_MinHeight: -1
   m_PreferredWidth: -1
-  m_PreferredHeight: 100
+  m_PreferredHeight: 150
   m_FlexibleWidth: 1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
@@ -5438,7 +5438,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2061956318}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.4678539
+  m_Size: 0.15722865
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
