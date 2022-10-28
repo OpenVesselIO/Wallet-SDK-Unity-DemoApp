@@ -47,7 +47,7 @@ extern "C" {
     OVLSdk.sharedInstance.presentationController.delegate = self;
 }
 
-- (void)presentationControllerWillShowWallet:(OVLPresentationController *)presentationController
+- (void)presentationControllerWillPresentWallet:(OVLPresentationController *)presentationController
 {
     UnitySendMessage(kCallbacksClassName, "ForwardOnWalletShowEvent", "");
 }
