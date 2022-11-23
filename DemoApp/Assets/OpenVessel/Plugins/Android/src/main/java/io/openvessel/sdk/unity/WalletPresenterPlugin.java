@@ -32,6 +32,12 @@ public class WalletPresenterPlugin
         sdk.getWalletPresenter().showWallet( currentActivity );
     }
 
+    public static void showProfile()
+    {
+        final VesselSdk sdk = VesselSdk.getInstance( currentActivity );
+        sdk.getWalletPresenter().showProfile( currentActivity );
+    }
+
     public static void openTokenInWalletApplication(final String fqtn)
     {
         final VesselSdk sdk = VesselSdk.getInstance( currentActivity );
