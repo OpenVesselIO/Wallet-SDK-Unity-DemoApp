@@ -109,7 +109,7 @@ namespace OVSdk
                 }
             }
 
-            set { _OVSetEnvironment(value.ToString().ToUpper()); }
+            set { _OVSetEnvironment(value.ToString().ToUpperInvariant()); }
         }
     }
 #endif
