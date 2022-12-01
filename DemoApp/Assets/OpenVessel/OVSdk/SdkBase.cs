@@ -36,6 +36,16 @@ namespace OVSdk
                 Logger.UserWarning("It looks like you have the " + walletPresenterCallbackObject.name +
                                    " on a GameObject in your scene. Please remove the script from your scene.");
             }
+
+            var iapManagerCallbackObject =
+                new GameObject("OVIapManagerCallbacks", typeof(IapManagerCallbacks))
+                    .GetComponent<IapManagerCallbacks>(); // Its Awake() method sets Instance.
+
+            if (IapManagerCallbacks.Instance != iapManagerCallbackObject)
+            {
+                Logger.UserWarning("It looks like you have the " + iapManagerCallbackObject.name +
+                                   " on a GameObject in your scene. Please remove the script from your scene.");
+            }
         }
     }
 }

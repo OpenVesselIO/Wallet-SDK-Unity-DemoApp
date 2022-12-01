@@ -6,26 +6,28 @@
 #import "OVSdkPluginDelegateForwarder.h"
 #import "OVAppConnectManagerDelegateForwarder.h"
 #import "OVWalletPresenterPluginDelegateForwarder.h"
+#import "OVIapManagerDelegateForwarder.h"
 
 extern "C" {
         
     void _OVInitialize(const char * userId)
     {
-        [[OVSdkPluginDelegateForwarder sharedInstance] attachDelegate];
-        [[OVAppConnectManagerDelegateForwarder sharedInstance] attachDelegate];
-        [[OVWalletPresenterPluginDelegateForwarder sharedInstance] attachDelegate];
+        [OVSdkPluginDelegateForwarder.sharedInstance attachDelegate];
+        [OVAppConnectManagerDelegateForwarder.sharedInstance attachDelegate];
+        [OVWalletPresenterPluginDelegateForwarder.sharedInstance attachDelegate];
+        [OVIapManagerDelegateForwarder.sharedInstance attachDelegate];
         
-        [[OVLSdk sharedInstance] startWithUserId: NSSTRING(userId)];
+        [OVLSdk.sharedInstance startWithUserId: NSSTRING(userId)];
     }
 
     void _OVSetEnvironment(const char * environment)
     {
         if (strcmp("PRODUCTION", environment) == 0) {
-            [[OVLSdk sharedInstance] setEnvironment: OVLEnvironmentProduction];
+            [OVLSdk.sharedInstance setEnvironment: OVLEnvironmentProduction];
         } else if (strcmp("STAGING", environment) == 0) {
-            [[OVLSdk sharedInstance] setEnvironment: OVLEnvironmentStaging];
+            [OVLSdk.sharedInstance setEnvironment: OVLEnvironmentStaging];
         } else if (strcmp("DEVELOPMENT", environment) == 0) {
-            [[OVLSdk sharedInstance] setEnvironment: OVLEnvironmentDevelopment];
+            [OVLSdk.sharedInstance setEnvironment: OVLEnvironmentDevelopment];
         }
     }
 
@@ -65,14 +67,14 @@ extern "C" {
             configuration.minLogLevel = minLogLevel;
             configuration.callbackUrl = callbackUrl;
             
-            [[OVLSdk sharedInstance] setConfiguration: configuration];
+            [OVLSdk.sharedInstance setConfiguration: configuration];
         }
     }
 
     char * _OVGetEnvironment()
     {
         const char * environmentStr = "PRODUCTION";
-        OVLEnvironment environment = [[OVLSdk sharedInstance] environment];
+        OVLEnvironment environment = [OVLSdk.sharedInstance environment];
         if (environment == OVLEnvironmentStaging) {
             environmentStr = "STAGING";
         } else if (environment == OVLEnvironmentDevelopment) {
@@ -89,6 +91,6 @@ extern "C" {
     {
         NSURL * deeplinkUrl = [NSURL URLWithString: NSSTRING(deeplink)];
         
-        return [[OVLSdk sharedInstance] handleDeepLink: deeplinkUrl];
+        return [OVLSdk.sharedInstance handleDeepLink: deeplinkUrl];
     }
 }

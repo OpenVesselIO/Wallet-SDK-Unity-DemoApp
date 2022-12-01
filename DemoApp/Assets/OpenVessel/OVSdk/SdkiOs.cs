@@ -36,6 +36,12 @@ namespace OVSdk
         /// <returns>Wallet presenter</returns>
         public static WalletPresenteriOs WalletPresenter => new WalletPresenteriOs();
 
+        /// <summary>
+        /// IAP manager allows to load balance by IAPs.
+        /// </summary>
+        /// <returns>IAP manager</returns>
+        public static IapManageriOs IapManager => new IapManageriOs();
+
         static SdkiOs()
         {
             InitCallbacks();

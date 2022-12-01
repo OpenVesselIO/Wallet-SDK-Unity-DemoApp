@@ -30,6 +30,12 @@ namespace OVSdk
         /// <returns>Wallet presenter</returns>
         public static WalletPresenterUnityEditor WalletPresenter => new WalletPresenterUnityEditor();
 
+        /// <summary>
+        /// IAP manager allows to load balance by IAPs.
+        /// </summary>
+        /// <returns>IAP manager</returns>
+        public static IapManagerUnityEditor IapManager => new IapManagerUnityEditor();
+
         static SdkUnityEditor()
         {
             InitCallbacks();

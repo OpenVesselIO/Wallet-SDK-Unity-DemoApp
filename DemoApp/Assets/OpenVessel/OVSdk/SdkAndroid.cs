@@ -42,6 +42,12 @@ namespace OVSdk
         public static WalletPresenterAndroid WalletPresenter => new WalletPresenterAndroid();
 
         /// <summary>
+        /// IAP manager allows to load balance by IAPs.
+        /// </summary>
+        /// <returns>IAP manager</returns>
+        public static IapManagerAndroid IapManager => new IapManagerAndroid();
+
+        /// <summary>
         /// Initialize Open Vessel SDK
         /// </summary>
         public static void Initialize(string userId)
