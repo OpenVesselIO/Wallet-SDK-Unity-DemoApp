@@ -90,6 +90,12 @@ public class WalletConnection : MonoBehaviour
         OVSdk.Sdk.WalletPresenter.ShowWallet();
     }
 
+    public void ShowProfile()
+    {
+        Debug.Log("Showing profile inside of the current application...");
+        OVSdk.Sdk.WalletPresenter.ShowProfile();
+    }
+
     public void OpenWalletApplication()
     {
         Debug.Log("Opening wallet application...");

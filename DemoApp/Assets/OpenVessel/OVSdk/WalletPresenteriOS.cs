@@ -63,6 +63,20 @@ namespace OVSdk
         }
 
         [DllImport("__Internal")]
+        private static extern void _OVWalletPresenterShowProfile();
+
+        /// <summary>
+        /// Show a wallet user's profile activity inside of the current application
+        ///
+        /// <p><b>Please note</b>: wallet activity will display only if user has connected their wallet to the app.
+        /// <p><b>Please note</b>: use <c>AppConnectManager</c> to connect wallet to this app
+        /// </summary>
+        public void ShowProfile()
+        {
+            _OVWalletPresenterShowProfile();
+        }
+
+        [DllImport("__Internal")]
         private static extern void _OVWalletPresenterOpenTokenInWalletApplication(string fqtn);
 
         /// <summary>
