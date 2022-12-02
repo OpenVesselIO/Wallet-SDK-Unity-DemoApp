@@ -78,7 +78,7 @@ namespace OVSdk
                 }
             }
 
-            set { OvSdkPluginClass.CallStatic("setEnvironment", value.ToString().ToUpper()); }
+            set { OvSdkPluginClass.CallStatic("setEnvironment", value.ToString().ToUpperInvariant()); }
         }
 
         /// <summary>

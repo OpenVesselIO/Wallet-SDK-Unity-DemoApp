@@ -268,7 +268,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Connect
+  m_Text: Connect w/o UI
 --- !u!222 &72156215
 CanvasRenderer:
   m_ObjectHideFlags: 0
