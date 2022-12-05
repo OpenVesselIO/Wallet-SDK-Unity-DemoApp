@@ -5,7 +5,12 @@
 #import "OVSdkPluginUtils.h"
 
 extern "C" {
-    
+
+    BOOL _OVIsWalletApplicationInstalled()
+    {
+        return [OVLSdk.sharedInstance.presentationController isWalletApplicationInstalled];
+    }
+
     void _OVWalletPresenterShowToken(const char * fqtn)
     {
         [OVLSdk.sharedInstance.presentationController presentToken:NSSTRING(fqtn) fromViewController:UNITY_VIEW_CONTROLLER animated:YES];

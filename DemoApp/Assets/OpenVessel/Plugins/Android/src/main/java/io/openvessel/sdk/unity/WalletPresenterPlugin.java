@@ -20,6 +20,12 @@ public class WalletPresenterPlugin
         sdk.getWalletPresenter().setListener( forwardingListener );
     }
 
+    public static boolean isWalletApplicationInstalled()
+    {
+        final VesselSdk sdk = VesselSdk.getInstance( currentActivity );
+        return sdk.getWalletPresenter().isWalletApplicationInstalled();
+    }
+
     public static void openWalletApplication()
     {
         final VesselSdk sdk = VesselSdk.getInstance( currentActivity );

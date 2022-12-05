@@ -18,6 +18,8 @@ public class WalletConnection : MonoBehaviour
 
     public InputField _loadBalanceAmountInputField;
 
+    public Button _checkWalletAppInstallButton;
+
     private int _walletShowCallCount;
     private int _walletDismissCallCount;
 
@@ -149,6 +151,21 @@ public class WalletConnection : MonoBehaviour
         }
     }
 
+    public void CheckWalletAppInstall()
+    {
+        string text;
+        if (OVSdk.Sdk.WalletPresenter.IsWalletApplicationInstalled())
+        {
+            text = "Wallet App installed";
+        }
+        else
+        {
+            text = "Wallet App is not installed";
+        }
+
+        PopupUtils.ShowPopup(text);
+    }
+
     public void LoadBalance()
     {
         var walletAddress = _appConnectState?.WalletAddress;
@@ -236,6 +253,8 @@ public class WalletConnection : MonoBehaviour
 
         _presentConnectButton.interactable = !isConnected;
         _connectButton.interactable = !isConnected;
+
+        _checkWalletAppInstallButton.interactable = true;
     }
 
 }

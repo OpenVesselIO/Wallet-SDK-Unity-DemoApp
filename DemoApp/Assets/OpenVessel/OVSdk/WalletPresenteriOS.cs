@@ -6,6 +6,18 @@ namespace OVSdk
 #if UNITY_IOS
     public class WalletPresenteriOs : WalletPresenterBase
     {
+
+        [DllImport("__Internal")]
+        private static extern bool _OVIsWalletApplicationInstalled();
+
+        /// <summary>
+        /// Check if the wallet application is installed.
+        /// </summary>
+        public bool IsWalletApplicationInstalled()
+        {
+            return _OVIsWalletApplicationInstalled();
+        }
+
         [DllImport("__Internal")]
         private static extern void _OVWalletPresenterShowToken(string fqtn);
 

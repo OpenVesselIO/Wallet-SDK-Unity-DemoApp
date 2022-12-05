@@ -5,6 +5,16 @@ namespace OVSdk
 {
     public class WalletPresenterUnityEditor : WalletPresenterBase
     {
+
+        /// <summary>
+        /// Check if the wallet application is installed.
+        /// </summary>
+        public bool IsWalletApplicationInstalled()
+        {
+            Logger.UserDebug("Checking if the wallet app is installed");
+            return false;
+        }
+
         /// <summary>
         /// Show a token page inside of the current application.
         /// 

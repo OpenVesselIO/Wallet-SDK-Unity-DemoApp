@@ -9,6 +9,14 @@ namespace OVSdk
             new AndroidJavaClass("io.openvessel.sdk.unity.WalletPresenterPlugin");
 
         /// <summary>
+        /// Check if the wallet application is installed.
+        /// </summary>
+        public bool IsWalletApplicationInstalled()
+        {
+            return OvPluginClass.CallStatic<bool>("isWalletApplicationInstalled");
+        }
+
+        /// <summary>
         /// Show a token page inside of the current application.
         /// 
         /// <p><b>Please note</b>: wallet activity will display only if user has connected their wallet to the app.
