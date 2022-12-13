@@ -9,11 +9,13 @@ namespace OVSdk
 
         public string ProductId { get; }
         public string Receipt { get; }
+        public string ReceiptSignature { get; }
 
-        internal SuccessfulPurchase(string productId, string receipt)
+        internal SuccessfulPurchase(string productId, string receipt, string receiptSignature)
         {
             ProductId = productId;
             Receipt = receipt;
+            ReceiptSignature = receiptSignature;
         }
     }
 

@@ -97,7 +97,7 @@ namespace OVSdk
         {
             var eventJson = JsonUtility.FromJson<SuccessfulPurchaseJson>(json);
 
-            var info = new SuccessfulPurchase(eventJson.productId, eventJson.receipt);
+            var info = new SuccessfulPurchase(eventJson.productId, eventJson.receipt, eventJson.receiptSignature);
 
             EventInvoker.InvokeEvent(_onPurchaseSuccessEvent, info);
         }
