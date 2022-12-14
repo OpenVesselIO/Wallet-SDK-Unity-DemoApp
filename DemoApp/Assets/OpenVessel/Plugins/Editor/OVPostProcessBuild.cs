@@ -215,6 +215,7 @@ namespace OVSdk
         void IPostGenerateGradleAndroidProject.OnPostGenerateGradleAndroidProject(string unityLibraryPath)
         {
             AddCustomUrlSchemesIfNeeded(unityLibraryPath);
+            PatchBuildFileIfNeeded(unityLibraryPath);
         }
 
         private static void AddCustomUrlSchemesIfNeeded(string unityLibraryPath)
@@ -295,6 +296,33 @@ namespace OVSdk
 
                 manifest.Save(manifestPath);
             }
+        }
+
+        private static void PatchBuildFileIfNeeded(string unityLibraryPath)
+        {
+            var triggerLine = "implementation(name: 'billing-";
+            var dependencyToRemove = "implementation(name: 'com.android.billingclient.billing-";
+
+            var buildFilePath = Path.Combine(unityLibraryPath, "build.gradle");
+            var buildFileLines = File.ReadAllLines(buildFilePath);
+
+            foreach (var line in buildFileLines)
+            {
+                if (line.Trim().StartsWith(triggerLine, StringComparison.OrdinalIgnoreCase))
+                {
+                    for (var i = 0; i < buildFileLines.Length; i++)
+                    {
+                        if (buildFileLines[i].Trim().StartsWith(dependencyToRemove, StringComparison.OrdinalIgnoreCase))
+                        {
+                            buildFileLines[i] = "// " + buildFileLines[i];
+                        }
+                    }
+
+                    break;
+                }
+            }
+
+            File.WriteAllLines(buildFilePath, buildFileLines);
         }
 
     }
