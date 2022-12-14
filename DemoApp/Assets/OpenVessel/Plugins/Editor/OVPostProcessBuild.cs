@@ -300,8 +300,8 @@ namespace OVSdk
 
         private static void PatchBuildFileIfNeeded(string unityLibraryPath)
         {
-            var triggerLine = "implementation(name: 'billing-";
-            var dependencyToRemove = "implementation(name: 'com.android.billingclient.billing-";
+            var triggerLine = "implementation(name: 'billing-4";
+            var dependencyToRemove = "implementation(name: 'com.android.billingclient.billing-4";
 
             var buildFilePath = Path.Combine(unityLibraryPath, "build.gradle");
             var buildFileLines = File.ReadAllLines(buildFilePath);
