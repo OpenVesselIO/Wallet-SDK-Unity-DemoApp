@@ -7,7 +7,7 @@ using UnityEditor;
 
 #endif
 
-namespace OVSdk
+namespace OVSdk.Utils
 {
 
     public static class Callback

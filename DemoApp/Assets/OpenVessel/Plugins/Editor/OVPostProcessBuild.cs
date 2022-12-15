@@ -9,6 +9,7 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.iOS.Xcode;
 using UnityEditor.Android;
+using OVSdk.Utils;
 
 namespace OVSdk
 {
@@ -300,21 +301,49 @@ namespace OVSdk
 
         private static void PatchBuildFileIfNeeded(string unityLibraryPath)
         {
-            var triggerLine = "implementation(name: 'billing-4.";
-            var dependencyToRemove = "implementation(name: 'com.android.billingclient.billing-4.";
+            var billingGroup = "com.android.billingclient";
+            var billingModule = "billing";
+            var billingMajorVersion = "4";
+
+            var triggerLine = $"implementation(name: 'billing-{billingMajorVersion}.";
+            var dependencyToRemove = $"implementation(name: '{billingGroup}.{billingModule}-{billingMajorVersion}.";
 
             var buildFilePath = Path.Combine(unityLibraryPath, "build.gradle");
-            var buildFileLines = File.ReadAllLines(buildFilePath);
+            var buildFileLines = new List<string>(File.ReadAllLines(buildFilePath));
 
             foreach (var line in buildFileLines)
             {
                 if (line.Trim().StartsWith(triggerLine, StringComparison.OrdinalIgnoreCase))
                 {
-                    for (var i = 0; i < buildFileLines.Length; i++)
+                    var isPatched = false;
+
+                    for (var i = 0; i < buildFileLines.Count; i++)
                     {
                         if (buildFileLines[i].Trim().StartsWith(dependencyToRemove, StringComparison.OrdinalIgnoreCase))
                         {
                             buildFileLines[i] = "// " + buildFileLines[i];
+                            isPatched = true;
+                        }
+                    }
+
+                    if (!isPatched)
+                    {
+                        var ovDependencyRegex = new Regex(@"^(\s*)(implementation) ('io.openvessel:sdk:.+?')(.+)$");
+
+                        for (var i = 0; i < buildFileLines.Count; i++)
+                        {
+                            var match = ovDependencyRegex.Match(buildFileLines[i]);
+
+                            if (match.Success)
+                            {
+                                buildFileLines[i] = $"{match.Groups[1].Captures[0]}{match.Groups[2].Captures[0]}({match.Groups[3].Captures[0]}) {{{match.Groups[4].Captures[0]}";
+
+                                buildFileLines.Insert(i + 1, $"{match.Groups[1].Captures[0].Value}}}");
+                                buildFileLines.Insert(i + 1, $"{match.Groups[1].Captures[0].Value.Repeat(2)}exclude group: '{billingGroup}', module: '{billingModule}'");
+
+                                isPatched = true;
+                                break;
+                            }
                         }
                     }
 
