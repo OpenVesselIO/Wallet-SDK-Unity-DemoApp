@@ -328,7 +328,7 @@ namespace OVSdk
 
                     if (!isPatched)
                     {
-                        var ovDependencyRegex = new Regex(@"^(\s*)(implementation) ('io.openvessel:sdk:.+?')(.+)$");
+                        var ovDependencyRegex = new Regex(@"^(\s*)(implementation)\s+('io.openvessel:sdk:.+?')(.+)$");
 
                         for (var i = 0; i < buildFileLines.Count; i++)
                         {
