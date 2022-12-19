@@ -24,6 +24,8 @@ extern "C" {
     {
         if (strcmp("PRODUCTION", environment) == 0) {
             [OVLSdk.sharedInstance setEnvironment: OVLEnvironmentProduction];
+        } else if (strcmp("TESTING", environment) == 0) {
+            [OVLSdk.sharedInstance setEnvironment: OVLEnvironmentTesting];
         } else if (strcmp("STAGING", environment) == 0) {
             [OVLSdk.sharedInstance setEnvironment: OVLEnvironmentStaging];
         } else if (strcmp("DEVELOPMENT", environment) == 0) {

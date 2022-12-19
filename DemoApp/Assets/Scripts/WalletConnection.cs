@@ -37,6 +37,8 @@ public class WalletConnection : MonoBehaviour
         var environment = VesselEnvironment.Staging;
 #if OV_ENVIRONMENT_DEV
         environment = VesselEnvironment.Development;
+#elif OV_ENVIRONMENT_TESTING
+        environment = VesselEnvironment.Testing;
 #elif OV_ENVIRONMENT_STAGING
         environment = VesselEnvironment.Staging;
 #elif OV_ENVIRONMENT_PROD
