@@ -76,8 +76,12 @@ extern "C" {
     char * _OVGetEnvironment()
     {
         const char * environmentStr = "PRODUCTION";
+
         OVLEnvironment environment = [OVLSdk.sharedInstance environment];
-        if (environment == OVLEnvironmentStaging) {
+
+        if (environment == OVLEnvironmentTesting) {
+            environmentStr = "TESTING";
+        } else if (environment == OVLEnvironmentStaging) {
             environmentStr = "STAGING";
         } else if (environment == OVLEnvironmentDevelopment) {
             environmentStr = "DEVELOPMENT";
