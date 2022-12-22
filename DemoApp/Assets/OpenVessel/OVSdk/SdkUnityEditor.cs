@@ -36,11 +36,6 @@ namespace OVSdk
         /// <returns>IAP manager</returns>
         public static IapManagerUnityEditor IapManager => new IapManagerUnityEditor();
 
-        static SdkUnityEditor()
-        {
-            InitCallbacks();
-        }
-
         /// <summary>
         /// Assign the environment that should be used for this SDK.
         /// <b>Please note</b>: the environment should be set before calling <code>Initialize()</code>

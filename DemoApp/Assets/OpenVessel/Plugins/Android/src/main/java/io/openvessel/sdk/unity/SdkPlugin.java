@@ -25,6 +25,7 @@ public class SdkPlugin
     {
         AppConnectManagerPlugin.initialize();
         WalletPresenterPlugin.initialize();
+        CustomPresenterPlugin.initialize();
 
         final VesselSdk sdk = VesselSdk.getInstance( currentActivity );
         sdk.setListener( forwardingListener );

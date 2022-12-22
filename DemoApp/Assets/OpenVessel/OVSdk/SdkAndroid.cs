@@ -26,7 +26,7 @@ namespace OVSdk
 
         static SdkAndroid()
         {
-            InitCallbacks();
+            InitSingletons();
         }
 
         /// <summary>

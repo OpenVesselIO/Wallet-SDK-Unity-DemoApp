@@ -1,4 +1,5 @@
-﻿using OVSdk;
+﻿using System;
+using OVSdk;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +20,8 @@ public class WalletConnection : MonoBehaviour
     public InputField _loadBalanceAmountInputField;
 
     public Button _checkWalletAppInstallButton;
+
+    public Text _setOrUnsetCustomPresenterButtonText;
 
     private int _walletShowCallCount;
     private int _walletDismissCallCount;
@@ -49,6 +52,8 @@ public class WalletConnection : MonoBehaviour
         OVSdk.AppConnectManagerCallbacks.OnStateUpdated += HandleAppConnectState;
         OVSdk.WalletPresenterCallbacks.OnWalletShow += HandleWalletShow;
         OVSdk.WalletPresenterCallbacks.OnWalletDismiss += HandleWalletDismiss;
+
+        UpdateSetOrUnsetCustomPresenterButtonText();
 
         OVSdk.Sdk.Configuration = new SdkConfiguration
         {
@@ -193,6 +198,22 @@ public class WalletConnection : MonoBehaviour
         }
     }
 
+    public void SetOrUnsetCustomPresenter()
+    {
+        if (OVSdk.CustomPresenter.LoadBalancePresenter == null)
+        {
+            OVSdk.CustomPresenter.LoadBalancePresenter = delegate
+            {
+                PopupUtils.ShowPopup("Custom Load Balance Presenter invoked");
+            };
+        } else
+        {
+            OVSdk.CustomPresenter.LoadBalancePresenter = null;
+        }
+
+        UpdateSetOrUnsetCustomPresenterButtonText();
+    }
+
     private void HandleAppConnectState(OVSdk.AppConnectState state)
     {
         Debug.Log("Got new wallet state: " + state);
@@ -257,6 +278,22 @@ public class WalletConnection : MonoBehaviour
         _connectButton.interactable = !isConnected;
 
         _checkWalletAppInstallButton.interactable = true;
+    }
+
+    private void UpdateSetOrUnsetCustomPresenterButtonText()
+    {
+        string textPrefix;
+
+        if (OVSdk.CustomPresenter.LoadBalancePresenter == null)
+        {
+            textPrefix = "Set";
+        }
+        else
+        {
+            textPrefix = "Unset";
+        }
+
+        _setOrUnsetCustomPresenterButtonText.text = textPrefix + " Custom Presenter";
     }
 
 }

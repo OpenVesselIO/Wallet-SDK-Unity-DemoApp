@@ -44,7 +44,7 @@ namespace OVSdk
 
         static SdkiOs()
         {
-            InitCallbacks();
+            InitSingletons();
         }
 
         [DllImport("__Internal")]

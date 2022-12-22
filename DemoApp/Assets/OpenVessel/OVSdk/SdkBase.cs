@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Logger = OVSdk.Utils.Logger;
 
@@ -5,7 +6,7 @@ namespace OVSdk
 {
     public class SdkBase
     {
-        protected static void InitCallbacks()
+        protected static void InitSingletons()
         {
             var sdkCallbackObject =
                 new GameObject("OVSdkCallbacks", typeof(SdkCallbacks))
@@ -44,6 +45,16 @@ namespace OVSdk
             if (IapManagerCallbacks.Instance != iapManagerCallbackObject)
             {
                 Logger.UserWarning("It looks like you have the " + iapManagerCallbackObject.name +
+                                   " on a GameObject in your scene. Please remove the script from your scene.");
+            }
+
+            var customPresenterObject =
+                new GameObject("OVCustomPresenter", typeof(CustomPresenter))
+                    .GetComponent<CustomPresenter>(); // Its Awake() method sets Instance.
+
+            if (CustomPresenter.Instance != customPresenterObject)
+            {
+                Logger.UserWarning("It looks like you have the " + customPresenterObject.name +
                                    " on a GameObject in your scene. Please remove the script from your scene.");
             }
         }
