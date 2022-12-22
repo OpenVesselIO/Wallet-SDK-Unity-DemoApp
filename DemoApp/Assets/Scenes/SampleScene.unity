@@ -4248,8 +4248,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1727620475}
   m_HandleRect: {fileID: 1727620474}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 0.99999994
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4546,7 +4546,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 519420030}
-        m_MethodName: LoadBalance
+        m_MethodName: SetOrUnsetCustomPresenter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5997,7 +5997,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2061956318}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.3787712
+  m_Size: 0.13492809
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
