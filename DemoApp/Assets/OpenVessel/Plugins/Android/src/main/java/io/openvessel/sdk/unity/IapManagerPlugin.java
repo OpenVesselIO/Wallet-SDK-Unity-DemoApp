@@ -26,11 +26,8 @@ public class IapManagerPlugin
         sdk.getIapManager().purchaseProduct( productId, currentActivity ).whenComplete( (verificationObject, th) -> {
             if ( th != null )
             {
-                final boolean isCancelled = Optional
-                        .ofNullable( th.getCause() )
-                        .filter( IapException.class::isInstance )
-                        .map( IapException.class::cast )
-                        .map( IapException::isCanceled )
+                final boolean isCancelled = IapException.findIapException( th )
+                        .map( e -> e.isCanceled() )
                         .orElse( false );
 
                 if ( isCancelled )
