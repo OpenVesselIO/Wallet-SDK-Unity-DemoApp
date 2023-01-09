@@ -5,6 +5,12 @@ namespace OVSdk
 {
     public class SdkUnityEditor : SdkBase
     {
+
+        static SdkUnityEditor()
+        {
+            InitSingletons();
+        }
+
         private static SdkConfiguration _configuration;
 
         public static SdkConfiguration Configuration
