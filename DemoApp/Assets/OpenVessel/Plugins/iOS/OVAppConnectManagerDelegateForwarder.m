@@ -58,11 +58,12 @@ extern "C" {
 
 +(NSString *)jsonStringFromState:(OVLAppConnectState *)state
 {
-    NSDictionary * dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                                 [self unityStringFromStatus: state.status], @"status",
-                                 (state.walletAddress != nil ? state.walletAddress : @""), @"walletAddress",
-                                 (state.accessToken != nil ? state.accessToken : @""), @"accessToken",                                 
-                                 nil];
+    NSDictionary * dictionary = @{
+        @"status": [self unityStringFromStatus: state.status],
+        @"userId": (state.userId ?: @""),
+        @"walletAddress": (state.walletAddress ?: @""),
+        @"accessToken": (state.accessToken ?: @"")
+    };
     
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary

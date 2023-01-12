@@ -7,15 +7,18 @@ namespace OVSdk
     {
         public AppConnectStatus Status { get; }
 
+        public string UserId { get; }
+
         public string WalletAddress { get; }
         
-        public string AccessToken{ get; }
+        public string AccessToken { get; }
 
-        internal AppConnectState(AppConnectStatus status, string walletAddress, string accessToken)
+        internal AppConnectState(AppConnectStatus status, string userId, string walletAddress, string accessToken)
         {
             Status = status;
+            UserId = userId;
             WalletAddress = walletAddress;
-            AccessToken= accessToken;
+            AccessToken = accessToken;
         }
     }
 }
