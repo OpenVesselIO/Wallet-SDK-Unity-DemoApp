@@ -13,6 +13,7 @@ import java.util.Optional;
 import io.openvessel.wallet.sdk.VesselSdk;
 import io.openvessel.wallet.sdk.iap.IapException;
 import io.openvessel.wallet.sdk.iap.models.IapVerificationObject;
+import io.openvessel.wallet.sdk.utils.ExceptionToUserMessage;
 
 import static com.unity3d.player.UnityPlayer.currentActivity;
 
@@ -78,7 +79,12 @@ public class IapManagerPlugin
 
     private static String toJsonStr(final String productId, final Throwable th)
     {
-        return String.format( "{ \"productId\": \"%s\", \"error\": { \"message\": \"%s\", \"detailedMessage\": \"%s\" } }", productId, th.getMessage(), th.toString() );
+        return String.format(
+                "{ \"productId\": \"%s\", \"error\": { \"message\": \"%s\", \"detailedMessage\": \"%s\" } }",
+                productId,
+                ExceptionToUserMessage.convert( th, currentActivity ),
+                th.toString()
+        );
     }
 
     private static void UnitySendMessageAsync(final String method, final String json)
