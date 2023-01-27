@@ -76,4 +76,9 @@ extern "C" {
         [OVLSdk.sharedInstance.presentationController confirmTransactionInWalletApplication: NSSTRING(transactionId)];
     }
 
+    void _OVWalletPresenterShowKyc()
+    {
+        [OVLSdk.sharedInstance.presentationController presentKycFromViewController:UNITY_VIEW_CONTROLLER animated:YES];
+    }
+
 }

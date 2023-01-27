@@ -149,6 +149,13 @@ namespace OVSdk
             OvPluginClass.CallStatic("confirmTransactionInWalletApplication", transactionId);
         }
 
+        /// <summary>
+        /// Present a KYC page inside of the current application.
+        /// </summary>
+        public void ShowKyc()
+        {
+            OvPluginClass.CallStatic("showKyc");
+        }
     }
 #endif
 }

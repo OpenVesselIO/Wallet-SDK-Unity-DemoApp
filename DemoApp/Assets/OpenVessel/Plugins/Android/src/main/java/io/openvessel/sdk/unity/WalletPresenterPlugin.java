@@ -104,6 +104,12 @@ public class WalletPresenterPlugin
         sdk.getWalletPresenter().confirmTransactionInWalletApplication( transactionId, currentActivity );
     }
 
+    public static void showKyc()
+    {
+        final VesselSdk sdk = VesselSdk.getInstance( currentActivity );
+        sdk.getWalletPresenter().showKyc( currentActivity );
+    }
+
     private static class ForwardingWalletPresenterListener
             implements WalletPresenterListener
     {

@@ -187,6 +187,17 @@ namespace OVSdk
         {
             _OVWalletPresenterConfirmTransactionInWalletApplication(transactionId);
         }
+
+        [DllImport("__Internal")]
+        private static extern void _OVWalletPresenterShowKyc();
+
+        /// <summary>
+        /// Present a KYC page inside of the current application.
+        /// </summary>
+        public void ShowKyc()
+        {
+            _OVWalletPresenterShowKyc();
+        }
     }
 #endif
 }

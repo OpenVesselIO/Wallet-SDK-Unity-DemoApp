@@ -214,6 +214,12 @@ public class WalletConnection : MonoBehaviour
         UpdateSetOrUnsetCustomPresenterButtonText();
     }
 
+    public void ShowKyc()
+    {
+        Debug.Log("Showing KYC inside of the current application...");
+        OVSdk.Sdk.WalletPresenter.ShowKyc();
+    }
+
     private void HandleAppConnectState(OVSdk.AppConnectState state)
     {
         Debug.Log("Got new wallet state: " + state);

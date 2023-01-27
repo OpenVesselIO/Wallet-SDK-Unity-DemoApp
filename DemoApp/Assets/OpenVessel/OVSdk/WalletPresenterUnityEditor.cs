@@ -146,5 +146,13 @@ namespace OVSdk
         {
             Logger.UserDebug("Opening wallet application with transaction id '" + transactionId + "'");
         }
+
+        /// <summary>
+        /// Present a KYC page inside of the current application.
+        /// </summary>
+        public void ShowKyc()
+        {
+            Logger.UserDebug("Showing in-app KYC page...");
+        }
     }
 }
