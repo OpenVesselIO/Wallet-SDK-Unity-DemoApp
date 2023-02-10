@@ -220,6 +220,21 @@ public class WalletConnection : MonoBehaviour
         OVSdk.Sdk.WalletPresenter.ShowKyc();
     }
 
+    public void ShowEarnings()
+    {
+        Debug.Log("Showing earnings inside of the current application...");
+        OVSdk.Sdk.EarningsManager.ShowEarnings(USER_ID);
+    }
+
+    public void TrackRandomRevenuedAd()
+    {
+        Debug.Log("Tracking random revenued ad...");
+
+        var values = (AdType[]) Enum.GetValues(typeof(AdType));
+
+        OVSdk.Sdk.EarningsManager.TrackRevenuedAd(values[new System.Random().Next(values.Length)]);
+    }
+
     private void HandleAppConnectState(OVSdk.AppConnectState state)
     {
         Debug.Log("Got new wallet state: " + state);

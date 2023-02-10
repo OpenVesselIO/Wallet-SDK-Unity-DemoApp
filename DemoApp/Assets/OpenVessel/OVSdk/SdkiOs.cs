@@ -42,6 +42,8 @@ namespace OVSdk
         /// <returns>IAP manager</returns>
         public static IapManageriOs IapManager => new IapManageriOs();
 
+        public static EarningsManageriOs EarningsManager => new EarningsManageriOs();
+
         static SdkiOs()
         {
             InitSingletons();
