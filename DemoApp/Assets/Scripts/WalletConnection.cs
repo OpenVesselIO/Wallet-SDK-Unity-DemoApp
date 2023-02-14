@@ -223,16 +223,19 @@ public class WalletConnection : MonoBehaviour
     public void ShowEarnings()
     {
         Debug.Log("Showing earnings inside of the current application...");
+#if UNITY_IOS
         OVSdk.Sdk.EarningsManager.ShowEarnings(USER_ID);
+#endif
     }
 
     public void TrackRandomRevenuedAd()
     {
         Debug.Log("Tracking random revenued ad...");
-
+#if UNITY_IOS
         var values = (AdType[]) Enum.GetValues(typeof(AdType));
 
         OVSdk.Sdk.EarningsManager.TrackRevenuedAd(values[new System.Random().Next(values.Length)]);
+#endif
     }
 
     private void HandleAppConnectState(OVSdk.AppConnectState state)
