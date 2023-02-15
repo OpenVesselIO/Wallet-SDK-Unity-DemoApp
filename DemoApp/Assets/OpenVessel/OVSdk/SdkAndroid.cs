@@ -47,6 +47,8 @@ namespace OVSdk
         /// <returns>IAP manager</returns>
         public static IapManagerAndroid IapManager => new IapManagerAndroid();
 
+        public static EarningsManagerAndroid EarningsManager => new EarningsManagerAndroid();
+
         /// <summary>
         /// Initialize Open Vessel SDK
         /// </summary>
