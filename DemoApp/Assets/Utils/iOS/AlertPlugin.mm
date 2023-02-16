@@ -7,7 +7,7 @@ extern "C" {
     void _OVUShowAlert(const char * text)
     {
         UIAlertController *alertController;
-        alertController = [UIAlertController alertControllerWithTitle:@"" message:NSSTRING(text)
+        alertController = [UIAlertController alertControllerWithTitle:nil message:NSSTRING(text)
                                                        preferredStyle:UIAlertControllerStyleAlert];
 
         UIAlertAction *okAction;

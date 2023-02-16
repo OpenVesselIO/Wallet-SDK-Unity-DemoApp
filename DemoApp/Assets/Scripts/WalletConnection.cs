@@ -233,8 +233,11 @@ public class WalletConnection : MonoBehaviour
         Debug.Log("Tracking random revenued ad...");
 #if UNITY_IOS
         var values = (AdType[]) Enum.GetValues(typeof(AdType));
+        var adType = values[new System.Random().Next(values.Length)];
 
-        OVSdk.Sdk.EarningsManager.TrackRevenuedAd(values[new System.Random().Next(values.Length)]);
+        OVSdk.Sdk.EarningsManager.TrackRevenuedAd(adType);
+
+        PopupUtils.ShowPopup(adType.ToString());
 #endif
     }
 
