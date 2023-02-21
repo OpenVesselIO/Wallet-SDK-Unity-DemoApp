@@ -36,10 +36,10 @@ extern "C" {
     {
         OVLEarningsPromoType promoType;
 
-        if (strcmp("STATIC", promoTypeCString)) {
+        if (strcmp("STATIC", promoTypeCString) == 0) {
             promoType = OVLEarningsPromoTypeStatic;
         }
-        else if (strcmp("VIDEO", promoTypeCString)) {
+        else if (strcmp("VIDEO", promoTypeCString) == 0) {
             promoType = OVLEarningsPromoTypeVideo;
         }
         else {
