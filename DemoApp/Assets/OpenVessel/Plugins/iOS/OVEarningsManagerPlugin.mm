@@ -32,10 +32,26 @@ extern "C" {
         [OVLSdk.sharedInstance.earningsManager trackRevenuedAd:adType];
     }
 
-    void _OVShowEarnings(const char * userId)
+    void _OVShowEarnings(const char * userId, const char * promoTypeCString)
     {
+        OVLEarningsPromoType promoType;
+
+        if (strcmp("STATIC", promoTypeCString)) {
+            promoType = OVLEarningsPromoTypeStatic;
+        }
+        else if (strcmp("VIDEO", promoTypeCString)) {
+            promoType = OVLEarningsPromoTypeVideo;
+        }
+        else {
+            return;
+        }
+
+        OVLEarningsPresentationSettings *settings;
+        settings = [OVLEarningsPresentationSettings settingsWithUserId:NSSTRING(userId)];
+        settings.promoType = promoType;
+
         [OVLSdk.sharedInstance.earningsManager presentEarningsFromViewController: UNITY_VIEW_CONTROLLER
-                                                                      withUserId: NSSTRING(userId)
+                                                                    withSettings: settings
                                                                         animated: YES];
     }
     

@@ -14,7 +14,12 @@ namespace OVSdk
 
         public void ShowEarnings(string userId)
         {
-            Logger.UserDebug("Showing in-app page for earnings of '" + userId + "'...");
+            ShowEarnings(userId, EarningsPromoType.Static);
+        }
+
+        public void ShowEarnings(string userId, EarningsPromoType promoType)
+        {
+            Logger.UserDebug("Showing in-app page for earnings of '" + userId + "' with promo type '" + promoType.ToString() + "'...");
         }
 
     }

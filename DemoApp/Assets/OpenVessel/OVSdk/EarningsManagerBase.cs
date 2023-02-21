@@ -21,6 +21,15 @@ namespace OVSdk
 
     }
 
+    public enum EarningsPromoType
+    {
+
+        Static,
+
+        Video,
+
+    }
+
     public class EarningsManagerBase
     {
     }

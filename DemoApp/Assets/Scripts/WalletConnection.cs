@@ -220,11 +220,19 @@ public class WalletConnection : MonoBehaviour
         OVSdk.Sdk.WalletPresenter.ShowKyc();
     }
 
-    public void ShowEarnings()
+    public void ShowEarningsWithStaticPromo()
     {
-        Debug.Log("Showing earnings inside of the current application...");
+        Debug.Log("Showing earnings with static promo inside of the current application...");
 #if UNITY_IOS
         OVSdk.Sdk.EarningsManager.ShowEarnings(USER_ID);
+#endif
+    }
+
+    public void ShowEarningsWithVideoPromo()
+    {
+        Debug.Log("Showing earnings with videopromo inside of the current application...");
+#if UNITY_IOS
+        OVSdk.Sdk.EarningsManager.ShowEarnings(USER_ID, EarningsPromoType.Video);
 #endif
     }
 
