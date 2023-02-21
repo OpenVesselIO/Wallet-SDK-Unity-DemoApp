@@ -1894,6 +1894,8 @@ MonoBehaviour:
   _fqgnInputField: {fileID: 341216600}
   _loadBalanceAmountInputField: {fileID: 1414061854}
   _checkWalletAppInstallButton: {fileID: 2025728359}
+  _showEarningsWithStaticPromoButton: {fileID: 2100205812}
+  _showEarningsWithVideoPromoButton: {fileID: 2023192903}
   _setOrUnsetCustomPresenterButtonText: {fileID: 533262798}
 --- !u!20 &519420031
 Camera:
@@ -4634,7 +4636,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1727620474}
   m_Direction: 0
   m_Value: 1
-  m_Size: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6615,7 +6617,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2061956318}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.13388604
+  m_Size: 0.3235517
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

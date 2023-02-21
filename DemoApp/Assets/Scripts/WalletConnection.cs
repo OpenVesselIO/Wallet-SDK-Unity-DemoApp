@@ -20,6 +20,8 @@ public class WalletConnection : MonoBehaviour
     public InputField _loadBalanceAmountInputField;
 
     public Button _checkWalletAppInstallButton;
+    public Button _showEarningsWithStaticPromoButton;
+    public Button _showEarningsWithVideoPromoButton;
 
     public Text _setOrUnsetCustomPresenterButtonText;
 
@@ -313,6 +315,8 @@ public class WalletConnection : MonoBehaviour
         _connectButton.interactable = !isConnected;
 
         _checkWalletAppInstallButton.interactable = true;
+        _showEarningsWithStaticPromoButton.interactable = true;
+        _showEarningsWithVideoPromoButton.interactable = true;
     }
 
     private void UpdateSetOrUnsetCustomPresenterButtonText()
