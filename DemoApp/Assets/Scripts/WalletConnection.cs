@@ -234,7 +234,11 @@ public class WalletConnection : MonoBehaviour
     {
         Debug.Log("Showing earnings with video promo inside of the current application...");
 #if UNITY_IOS
-        OVSdk.Sdk.EarningsManager.ShowEarnings(USER_ID, EarningsPromoType.Video);
+        var settings = new EarningsPresentationSettings(USER_ID);
+        settings.PromoType = EarningsPromoType.Video;
+        settings.TriggerName = "show_earnings_with_video_promo_button";
+
+        OVSdk.Sdk.EarningsManager.ShowEarnings(settings);
 #endif
     }
 

@@ -19,16 +19,16 @@ namespace OVSdk
         }
 
         [DllImport("__Internal")]
-        private static extern void _OVShowEarnings(string userId, string promoType);
+        private static extern void _OVShowEarnings(string settingsJson);
 
         public void ShowEarnings(string userId)
         {
-            ShowEarnings(userId, EarningsPromoType.Static);
+            ShowEarnings(new EarningsPresentationSettings(userId));
         }
 
-        public void ShowEarnings(string userId, EarningsPromoType promoType)
+        public void ShowEarnings(EarningsPresentationSettings settings)
         {
-            _OVShowEarnings(userId, promoType.ToString().ToUpperInvariant());
+            _OVShowEarnings(JsonUtility.ToJson(new EarningsPresentationSettingsJson(settings)));
         }
 
     }

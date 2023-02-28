@@ -32,14 +32,27 @@ extern "C" {
         [OVLSdk.sharedInstance.earningsManager trackRevenuedAd:adType];
     }
 
-    void _OVShowEarnings(const char * userId, const char * promoTypeCString)
+    void _OVShowEarnings(const char * settingsJson)
     {
+        NSData *settingsJsonData = [NSSTRING(settingsJson) dataUsingEncoding:NSUTF8StringEncoding];
+
+        NSError *error;
+        NSDictionary *settingsDict = [NSJSONSerialization JSONObjectWithData: settingsJsonData
+                                                                     options: kNilOptions
+                                                                       error: &error];
+
+        if (settingsDict == nil) {
+            return;
+        }
+
+        NSString *promoTypeString = settingsDict[@"promoType"];
+
         OVLEarningsPromoType promoType;
 
-        if (strcmp("STATIC", promoTypeCString) == 0) {
+        if ([@"STATIC" isEqualToString:promoTypeString]) {
             promoType = OVLEarningsPromoTypeStatic;
         }
-        else if (strcmp("VIDEO", promoTypeCString) == 0) {
+        else if ([@"VIDEO" isEqualToString:promoTypeString]) {
             promoType = OVLEarningsPromoTypeVideo;
         }
         else {
@@ -47,8 +60,9 @@ extern "C" {
         }
 
         OVLEarningsPresentationSettings *settings;
-        settings = [OVLEarningsPresentationSettings settingsWithUserId:NSSTRING(userId)];
+        settings = [OVLEarningsPresentationSettings settingsWithUserId:settingsDict[@"userId"]];
         settings.promoType = promoType;
+        settings.triggerName = settingsDict[@"triggerName"];
 
         [OVLSdk.sharedInstance.earningsManager presentEarningsFromViewController: UNITY_VIEW_CONTROLLER
                                                                     withSettings: settings

@@ -14,12 +14,12 @@ namespace OVSdk
 
         public void ShowEarnings(string userId)
         {
-            ShowEarnings(userId, EarningsPromoType.Static);
+            ShowEarnings(new EarningsPresentationSettings(userId));
         }
 
-        public void ShowEarnings(string userId, EarningsPromoType promoType)
+        public void ShowEarnings(EarningsPresentationSettings settings)
         {
-            Logger.UserDebug("Showing in-app page for earnings of '" + userId + "' with promo type '" + promoType.ToString() + "'...");
+            Logger.UserDebug("Showing in-app page for earnings of '" + settings.UserId + "' with promo type '" + settings.PromoType.ToString() + "'...");
         }
 
     }

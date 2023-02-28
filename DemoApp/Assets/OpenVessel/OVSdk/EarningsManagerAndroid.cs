@@ -20,6 +20,11 @@ namespace OVSdk
             throw new NotImplementedException();
         }
 
+        public void ShowEarnings(EarningsPresentationSettings settings)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 #endif
 }
