@@ -10,19 +10,22 @@ namespace OVSdk
     public class EarningsManagerAndroid: EarningsManagerBase
     {
 
+        private static readonly AndroidJavaClass PluginClass =
+            new AndroidJavaClass("io.openvessel.sdk.unity.EarningsManagerPlugin");
+
         public void TrackRevenuedAd(AdType adType)
         {
-            throw new NotImplementedException();
+            PluginClass.CallStatic("trackRevenuedAd", adType.ToString().ToUpperInvariant());
         }
 
         public void ShowEarnings(string userId)
         {
-            throw new NotImplementedException();
+            ShowEarnings(new EarningsPresentationSettings(userId));
         }
 
         public void ShowEarnings(EarningsPresentationSettings settings)
         {
-            throw new NotImplementedException();
+            PluginClass.CallStatic("showEarnings", JsonUtility.ToJson(new EarningsPresentationSettingsJson(settings)));
         }
 
     }
