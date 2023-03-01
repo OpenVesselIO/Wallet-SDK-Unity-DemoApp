@@ -39,13 +39,20 @@ public class EarningsManagerPlugin
                 EarningsActivitySettings.PromoType
                     .maybeValueOf( settings.getString( "promoType" ) )
                     .ifPresent( promoType -> {
-                        sdk.getEarningsManager().startEarningsActivity(
-                            EarningsActivitySettings.builder( settings.getString( "userId" ) )
-                                    .promoType( promoType )
-                                    .triggerName( settings.getString( "triggerName" ) )
-                                    .build(),
-                            currentActivity
-                        );
+                        try
+                        {
+                            sdk.getEarningsManager().startEarningsActivity(
+                                EarningsActivitySettings.builder( settings.getString( "userId" ) )
+                                        .promoType( promoType )
+                                        .triggerName( settings.getString( "triggerName" ) )
+                                        .build(),
+                                currentActivity
+                            );
+                        }
+                        catch ( Exception ex )
+                        {
+                            Logger.userError( "EarningsManagerPlugin", "Unable to parse settings", ex );
+                        }
                     } );
             }
             catch ( Exception ex )
