@@ -12,6 +12,10 @@ namespace OVSdk
         {
         }
 
+        public void TrackImpression(string triggerName)
+        {
+        }
+
         public void ShowEarnings(string userId)
         {
             ShowEarnings(new EarningsPresentationSettings(userId));

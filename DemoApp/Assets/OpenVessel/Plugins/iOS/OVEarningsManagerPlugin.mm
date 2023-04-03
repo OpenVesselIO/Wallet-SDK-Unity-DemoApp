@@ -32,6 +32,11 @@ extern "C" {
         [OVLSdk.sharedInstance.earningsManager trackRevenuedAd:adType];
     }
 
+    void _OVTrackImpression(const char * triggerName)
+    {
+        [OVLSdk.sharedInstance.earningsManager trackImpressionWithTriggerName:NSSTRING(triggerName)];
+    }
+
     void _OVShowEarnings(const char * settingsJson)
     {
         NSData *settingsJsonData = [NSSTRING(settingsJson) dataUsingEncoding:NSUTF8StringEncoding];

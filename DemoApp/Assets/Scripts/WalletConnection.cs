@@ -25,6 +25,11 @@ public class WalletConnection : MonoBehaviour
 
     public Text _setOrUnsetCustomPresenterButtonText;
 
+    public Button _trackRandomRevenuedAdButton;
+
+    public InputField _earningsImpressionTriggerNameInputField;
+    public Button _trackEarningsImpressionButton;
+
     private int _walletShowCallCount;
     private int _walletDismissCallCount;
 
@@ -243,13 +248,19 @@ public class WalletConnection : MonoBehaviour
     public void TrackRandomRevenuedAd()
     {
         Debug.Log("Tracking random revenued ad...");
-#if UNITY_IOS
+
         var values = (AdType[]) Enum.GetValues(typeof(AdType));
         var adType = values[new System.Random().Next(values.Length)];
 
         OVSdk.Sdk.EarningsManager.TrackRevenuedAd(adType);
 
         PopupUtils.ShowPopup(adType.ToString());
+    }
+
+    public void TrackEarningsImpression()
+    {
+#if UNITY_IOS
+        OVSdk.Sdk.EarningsManager.TrackImpression(_earningsImpressionTriggerNameInputField.text);
 #endif
     }
 
@@ -319,6 +330,8 @@ public class WalletConnection : MonoBehaviour
         _checkWalletAppInstallButton.interactable = true;
         _showEarningsWithStaticPromoButton.interactable = true;
         _showEarningsWithVideoPromoButton.interactable = true;
+        _trackRandomRevenuedAdButton.interactable = true;
+        _trackEarningsImpressionButton.interactable = true;
     }
 
     private void UpdateSetOrUnsetCustomPresenterButtonText()

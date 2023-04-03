@@ -19,6 +19,14 @@ namespace OVSdk
         }
 
         [DllImport("__Internal")]
+        private static extern void _OVTrackImpression(string triggerName);
+
+        public void TrackImpression(string triggerName)
+        {
+            _OVTrackImpression(triggerName);
+        }
+
+        [DllImport("__Internal")]
         private static extern void _OVShowEarnings(string settingsJson);
 
         public void ShowEarnings(string userId)
