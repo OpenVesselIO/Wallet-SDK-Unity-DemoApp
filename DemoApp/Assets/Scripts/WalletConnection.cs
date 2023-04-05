@@ -275,17 +275,21 @@ public class WalletConnection : MonoBehaviour
 
     public void GenerateEarningsAuthCode()
     {
+#if UNITY_IOS
         OVSdk.Sdk.EarningsManager.GenerateAuthCodeForPhoneNumber(_earningsAuthPhoneNumberInputField.text);
+#endif
     }
 
     public void LoginEarningsByPhoneAuthCode()
     {
+#if UNITY_IOS
         OVSdk.Sdk.EarningsManager.LoginByPhoneAuthCode(
             _earningsAuthCodeMetadata.PhoneNumber,
             _earningsAuthCodeInputField.text,
             _earningsAuthCodeMetadata.CreatedAt,
             USER_ID
         );
+#endif
     }
 
     private void HandleAppConnectState(OVSdk.AppConnectState state)
