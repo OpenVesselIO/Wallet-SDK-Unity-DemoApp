@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Runtime.InteropServices;
+using UnityEditor;
 using UnityEngine;
 using Logger = OVSdk.Utils.Logger;
 
@@ -36,7 +37,25 @@ namespace OVSdk
 
         public void ShowEarnings(EarningsPresentationSettings settings)
         {
-            _OVShowEarnings(JsonUtility.ToJson(new EarningsPresentationSettingsJson(settings)));
+            _OVShowEarnings(JsonUtility.ToJson(new PresentationSettingsJson(settings)));
+        }
+
+        [DllImport("__Internal")]
+        private static extern void _OVGenerateAuthCodeForPhoneNumber(string phoneNumber);
+
+        public void GenerateAuthCodeForPhoneNumber(string phoneNumber)
+        {
+            _OVGenerateAuthCodeForPhoneNumber(phoneNumber);
+        }
+
+        [DllImport("__Internal")]
+        private static extern void _OVLoginByPhoneAuthCode(string loginJson);
+
+        public void LoginByPhoneAuthCode(string phoneNumber, string code, Int64 codeCreatedAt, string userId)
+        {
+            var json = new LoginJson(phoneNumber, code, codeCreatedAt, userId);
+
+            _OVLoginByPhoneAuthCode(JsonUtility.ToJson(json));
         }
 
     }

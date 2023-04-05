@@ -26,5 +26,13 @@ namespace OVSdk
             Logger.UserDebug("Showing in-app page for earnings of '" + settings.UserId + "' with promo type '" + settings.PromoType.ToString() + "'...");
         }
 
+        public void GenerateAuthCodeForPhoneNumber(string phoneNumber)
+        {
+        }
+
+        public void LoginByPhoneAuthCode(string phoneNumber, string authCode, Int64 createCodeAt, string userId)
+        {
+        }
+
     }
 }
