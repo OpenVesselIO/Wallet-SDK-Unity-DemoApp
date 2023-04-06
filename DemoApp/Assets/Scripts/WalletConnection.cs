@@ -77,6 +77,8 @@ public class WalletConnection : MonoBehaviour
         OVSdk.EarningsManagerCallbacks.OnAuthCodeMetadata += HandleEarningsAuthCodeMetadata;
         OVSdk.EarningsManagerCallbacks.OnVerificationCodeMetadata += HandleEarningsVerificationCodeMetadata;
         OVSdk.EarningsManagerCallbacks.OnAuthFailure += HandleEarningsAuthFailure;
+        OVSdk.EarningsManagerCallbacks.OnVerificationFailure += HandleEarningsVerificationFailure;
+        OVSdk.EarningsManagerCallbacks.OnVerificationSuccess += HandleEarningsVerificationSuccess;
 
         UpdateSetOrUnsetCustomPresenterButtonText();
 
@@ -360,6 +362,18 @@ public class WalletConnection : MonoBehaviour
     private void HandleEarningsAuthFailure(string failure)
     {
         PopupUtils.ShowPopup(failure);
+    }
+
+    private void HandleEarningsVerificationFailure(string failure)
+    {
+        PopupUtils.ShowPopup(failure);
+    }
+
+    private void HandleEarningsVerificationSuccess()
+    {
+        PopupUtils.ShowPopup("Email is successfully verified!");
+
+        _earningsVerificationEmailCodeInputField.text = null;
     }
 
     private void UpdateStatusText()

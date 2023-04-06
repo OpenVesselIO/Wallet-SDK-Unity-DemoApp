@@ -18,6 +18,16 @@ extern "C" {
         UnitySendMessage(kCallbacksObjectName, "ForwardOnAuthFailure", msg.UTF8String);
     }
 
+    static void earnings_send_verification_error(NSString *msg)
+    {
+        UnitySendMessage(kCallbacksObjectName, "ForwardOnVerificationFailure", msg.UTF8String);
+    }
+
+    static void earnings_send_verification_success()
+    {
+        UnitySendMessage(kCallbacksObjectName, "ForwardOnVerificationSuccess", "");
+    }
+
     void _OVTrackRevenuedAd(const char * adTypeCString)
     {
         OVLAdType adType;
@@ -168,7 +178,9 @@ extern "C" {
          codeCreatedAt:[dict[@"codeCreatedAt"] longLongValue]
          completionHandler:^(NSError * _Nullable error) {
             if (error) {
-                earnings_send_auth_error(error.localizedDescription);
+                earnings_send_verification_error(error.localizedDescription);
+            } else {
+                earnings_send_verification_success();
             }
         }];
     }

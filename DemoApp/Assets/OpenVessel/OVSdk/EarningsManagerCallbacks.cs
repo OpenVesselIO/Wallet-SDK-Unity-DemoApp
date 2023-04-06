@@ -8,8 +8,6 @@ using Logger = OVSdk.Utils.Logger;
 namespace OVSdk
 {
 
-    using VerificationCodeMetadata = AuthCodeMetadata;
-
     public class EarningsManagerCallbacks : MonoBehaviour
     {
 
@@ -55,8 +53,10 @@ namespace OVSdk
         public static EarningsManagerCallbacks Instance { get; private set; }
 
         private static Action<AuthCodeMetadata> _onAuthCodeMetadataEvent;
-        private static Action<VerificationCodeMetadata> _onVerificationCodeMetadataEvent;
+        private static Action<AuthCodeMetadata> _onVerificationCodeMetadataEvent;
         private static Action<string> _onAuthFailure;
+        private static Action<string> _onVerificationFailure;
+        private static Action _onVerificationSuccess;
 
         public static event Action<AuthCodeMetadata> OnAuthCodeMetadata
         {
@@ -72,7 +72,7 @@ namespace OVSdk
             }
         }
 
-        public static event Action<VerificationCodeMetadata> OnVerificationCodeMetadata
+        public static event Action<AuthCodeMetadata> OnVerificationCodeMetadata
         {
             add
             {
@@ -100,6 +100,34 @@ namespace OVSdk
             }
         }
 
+        public static event Action<string> OnVerificationFailure
+        {
+            add
+            {
+                Logger.LogSubscribedToEvent("OnVerificationFailure");
+                _onVerificationFailure += value;
+            }
+            remove
+            {
+                Logger.LogUnsubscribedToEvent("OnVerificationFailure");
+                _onVerificationFailure -= value;
+            }
+        }
+
+        public static event Action OnVerificationSuccess
+        {
+            add
+            {
+                Logger.LogSubscribedToEvent("OnVerificationSuccess");
+                _onVerificationSuccess += value;
+            }
+            remove
+            {
+                Logger.LogUnsubscribedToEvent("OnVerificationSuccess");
+                _onVerificationSuccess -= value;
+            }
+        }
+
         public void ForwardOnAuthCodeMetadataEvent(string json)
         {
             var eventJson = JsonUtility.FromJson<AuthCodeMetadataJson>(json);
@@ -119,6 +147,16 @@ namespace OVSdk
         public void ForwardOnAuthFailure(string description)
         {
             EventInvoker.InvokeEvent(_onAuthFailure, description);
+        }
+
+        public void ForwardOnVerificationFailure(string description)
+        {
+            EventInvoker.InvokeEvent(_onVerificationFailure, description);
+        }
+
+        public void ForwardOnVerificationSuccess(string unused)
+        {
+            EventInvoker.InvokeEvent(_onVerificationSuccess);
         }
 
         void Awake()
