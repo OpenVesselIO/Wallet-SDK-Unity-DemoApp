@@ -6544,7 +6544,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Generate Auth Code
+  m_Text: Generate Email Verification Code
 --- !u!222 &1480581080
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6746,7 +6746,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Login By Auth Code
+  m_Text: Login By Phone Auth Code
 --- !u!222 &1500617254
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8401,7 +8401,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Login By Auth Code
+  m_Text: Verify Email
 --- !u!222 &1865153889
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8479,7 +8479,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Generate Auth Code
+  m_Text: Generate Phone Auth Code
 --- !u!222 &1872519068
 CanvasRenderer:
   m_ObjectHideFlags: 0
