@@ -90,7 +90,7 @@ extern "C" {
     {
         NSString *phoneNumber = NSSTRING(cPhoneNumber);
 
-        [OVLSdk.sharedInstance.earningsManager generateAuthCodeWithPhoneNumber:phoneNumber resultHandler:
+        [OVLSdk.sharedInstance.earningsManager generateAuthCodeForPhoneNumber:phoneNumber resultHandler:
          ^(OVLEarningsAuthCodeMetadata * _Nullable authCodeMetadata, NSError * _Nullable error) {
             if (authCodeMetadata) {
                 earnings_send_message("ForwardOnAuthCodeMetadataEvent", @{
@@ -123,6 +123,49 @@ extern "C" {
          code:dict[@"code"]
          codeCreatedAt:[dict[@"codeCreatedAt"] longLongValue]
          userId:dict[@"userId"]
+         completionHandler:^(NSError * _Nullable error) {
+            if (error) {
+                earnings_send_auth_error(error.localizedDescription);
+            }
+        }];
+    }
+
+    void _OVGenerateVerificationCodeForEmail(const char * cEmail)
+    {
+        NSString *email = NSSTRING(cEmail);
+
+        [OVLSdk.sharedInstance.earningsManager generateVerificationCodeForEmail:email resultHandler:
+         ^(OVLEarningsVerificationCodeMetadata * _Nullable codeMetadata, NSError * _Nullable error) {
+            if (codeMetadata) {
+                earnings_send_message("ForwardOnVerificationCodeMetadataEvent", @{
+                    @"email": email,
+                    @"createdAt": @(codeMetadata.createdAt),
+                    @"expiresAt": @(codeMetadata.expiresAt),
+                    @"ttl": @(codeMetadata.ttl),
+                });
+            } else {
+                earnings_send_auth_error(error.localizedDescription);
+            }
+        }];
+    }
+
+    void _OVVerifyEmail(const char * json)
+    {
+        NSData *jsonData = [NSSTRING(json) dataUsingEncoding:NSUTF8StringEncoding];
+
+        NSError *error;
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData: jsonData
+                                                             options: kNilOptions
+                                                               error: &error];
+
+        if (dict == nil) {
+            return;
+        }
+
+        [OVLSdk.sharedInstance.earningsManager
+         verifyEmail:dict[@"email"]
+         code:dict[@"code"]
+         codeCreatedAt:[dict[@"codeCreatedAt"] longLongValue]
          completionHandler:^(NSError * _Nullable error) {
             if (error) {
                 earnings_send_auth_error(error.localizedDescription);

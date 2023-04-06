@@ -31,14 +31,22 @@ public class WalletConnection : MonoBehaviour
     public Button _trackEarningsImpressionButton;
 
     public InputField _earningsAuthPhoneNumberInputField;
-    public Button _earningsAuthGenerateCodeButton;
-    public InputField _earningsAuthCodeInputField;
+    public Button _earningsAuthGeneratePhoneCodeButton;
+
+    public InputField _earningsAuthPhoneCodeInputField;
     public Button _earningsAuthLoginByPhoneCodeButton;
+
+    public InputField _earningsVerificationEmailInputField;
+    public Button _earningsVerificationGenerateEmailCodeButton;
+
+    public InputField _earningsVerificationEmailCodeInputField;
+    public Button _earningsVerifyEmailButton;
 
     private int _walletShowCallCount;
     private int _walletDismissCallCount;
 
     private EarningsManagerCallbacks.AuthCodeMetadata _earningsAuthCodeMetadata;
+    private EarningsManagerCallbacks.AuthCodeMetadata _earningsVerificationCodeMetadata;
 
     void Start()
     {
@@ -67,6 +75,7 @@ public class WalletConnection : MonoBehaviour
         OVSdk.WalletPresenterCallbacks.OnWalletShow += HandleWalletShow;
         OVSdk.WalletPresenterCallbacks.OnWalletDismiss += HandleWalletDismiss;
         OVSdk.EarningsManagerCallbacks.OnAuthCodeMetadata += HandleEarningsAuthCodeMetadata;
+        OVSdk.EarningsManagerCallbacks.OnVerificationCodeMetadata += HandleEarningsVerificationCodeMetadata;
         OVSdk.EarningsManagerCallbacks.OnAuthFailure += HandleEarningsAuthFailure;
 
         UpdateSetOrUnsetCustomPresenterButtonText();
@@ -273,7 +282,7 @@ public class WalletConnection : MonoBehaviour
 #endif
     }
 
-    public void GenerateEarningsAuthCode()
+    public void GenerateEarningsPhoneAuthCode()
     {
 #if UNITY_IOS
         OVSdk.Sdk.EarningsManager.GenerateAuthCodeForPhoneNumber(_earningsAuthPhoneNumberInputField.text);
@@ -285,9 +294,27 @@ public class WalletConnection : MonoBehaviour
 #if UNITY_IOS
         OVSdk.Sdk.EarningsManager.LoginByPhoneAuthCode(
             _earningsAuthCodeMetadata.PhoneNumber,
-            _earningsAuthCodeInputField.text,
+            _earningsAuthPhoneCodeInputField.text,
             _earningsAuthCodeMetadata.CreatedAt,
             USER_ID
+        );
+#endif
+    }
+
+    public void GenerateEarningsEmailVerificationCode()
+    {
+#if UNITY_IOS
+        OVSdk.Sdk.EarningsManager.GenerateVerificationCodeForEmail(_earningsVerificationEmailInputField.text);
+#endif
+    }
+
+    public void VerifyEarningsEmail()
+    {
+#if UNITY_IOS
+        OVSdk.Sdk.EarningsManager.VerifyEmail(
+            _earningsAuthCodeMetadata.Email,
+            _earningsVerificationEmailCodeInputField.text,
+            _earningsAuthCodeMetadata.CreatedAt
         );
 #endif
     }
@@ -316,11 +343,18 @@ public class WalletConnection : MonoBehaviour
         UpdateStatusText();
     }
 
-    private void HandleEarningsAuthCodeMetadata(EarningsManagerCallbacks.AuthCodeMetadata authCodeMetadata)
+    private void HandleEarningsAuthCodeMetadata(EarningsManagerCallbacks.AuthCodeMetadata codeMetadata)
     {
-        _earningsAuthCodeMetadata = authCodeMetadata;
+        _earningsAuthCodeMetadata = codeMetadata;
 
         _earningsAuthPhoneNumberInputField.text = null;
+    }
+
+    private void HandleEarningsVerificationCodeMetadata(EarningsManagerCallbacks.AuthCodeMetadata codeMetadata)
+    {
+        _earningsVerificationCodeMetadata = codeMetadata;
+
+        _earningsVerificationEmailInputField.text = null;
     }
 
     private void HandleEarningsAuthFailure(string failure)
@@ -372,12 +406,12 @@ public class WalletConnection : MonoBehaviour
         _showEarningsWithVideoPromoButton.interactable = true;
         _trackRandomRevenuedAdButton.interactable = true;
         _trackEarningsImpressionButton.interactable = true;
-        _earningsAuthGenerateCodeButton.interactable = true;
+        _earningsAuthGeneratePhoneCodeButton.interactable = true;
         _earningsAuthLoginByPhoneCodeButton.interactable = true;
 
         if (isConnected)
         {
-            _earningsAuthCodeInputField.text = null;
+            _earningsAuthPhoneCodeInputField.text = null;
         }
     }
 

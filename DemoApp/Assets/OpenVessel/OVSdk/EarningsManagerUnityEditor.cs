@@ -30,7 +30,15 @@ namespace OVSdk
         {
         }
 
-        public void LoginByPhoneAuthCode(string phoneNumber, string authCode, Int64 createCodeAt, string userId)
+        public void LoginByPhoneAuthCode(string phoneNumber, string authCode, Int64 codeCreatedAt, string userId)
+        {
+        }
+
+        public void GenerateVerificationCodeForEmail(string email)
+        {
+        }
+
+        public void VerifyEmail(string email, string verificationCode, Int64 codeCreatedAt)
         {
         }
 

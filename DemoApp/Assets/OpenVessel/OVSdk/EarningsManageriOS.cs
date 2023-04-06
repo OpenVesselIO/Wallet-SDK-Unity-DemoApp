@@ -58,6 +58,24 @@ namespace OVSdk
             _OVLoginByPhoneAuthCode(JsonUtility.ToJson(json));
         }
 
+        [DllImport("__Internal")]
+        private static extern void _OVGenerateVerificationCodeForEmail(string email);
+
+        public void GenerateVerificationCodeForEmail(string email)
+        {
+            _OVGenerateVerificationCodeForEmail(email);
+        }
+
+        [DllImport("__Internal")]
+        private static extern void _OVVerifyEmail(string verifyJson);
+
+        public void VerifyEmail(string email, string code, Int64 codeCreatedAt)
+        {
+            var json = new VerificationJson(email, code, codeCreatedAt);
+
+            _OVVerifyEmail(JsonUtility.ToJson(json));
+        }
+
     }
 #endif
 }

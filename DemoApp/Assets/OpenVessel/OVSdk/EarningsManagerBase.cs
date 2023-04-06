@@ -88,6 +88,23 @@ namespace OVSdk
 
         }
 
+        [Serializable]
+        protected class VerificationJson
+        {
+
+            [SerializeField] string email;
+            [SerializeField] string code;
+            [SerializeField] Int64 codeCreatedAt;
+
+            public VerificationJson(string email, string code, Int64 codeCreatedAt)
+            {
+                this.email = email;
+                this.code = code;
+                this.codeCreatedAt = codeCreatedAt;
+            }
+
+        }
+
     }
 
 }
