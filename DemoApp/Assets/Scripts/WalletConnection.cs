@@ -312,9 +312,9 @@ public class WalletConnection : MonoBehaviour
     {
 #if UNITY_IOS
         OVSdk.Sdk.EarningsManager.VerifyEmail(
-            _earningsAuthCodeMetadata.Email,
+            _earningsVerificationCodeMetadata.Email,
             _earningsVerificationEmailCodeInputField.text,
-            _earningsAuthCodeMetadata.CreatedAt
+            _earningsVerificationCodeMetadata.CreatedAt
         );
 #endif
     }
