@@ -57,6 +57,16 @@ namespace OVSdk
                 Logger.UserWarning("It looks like you have the " + customPresenterObject.name +
                                    " on a GameObject in your scene. Please remove the script from your scene.");
             }
+
+            var earningsManagerCallbackObject =
+                new GameObject("OVEarningsManagerCallbacks", typeof(EarningsManagerCallbacks))
+                    .GetComponent<EarningsManagerCallbacks>(); // Its Awake() method sets Instance.
+
+            if (EarningsManagerCallbacks.Instance != earningsManagerCallbackObject)
+            {
+                Logger.UserWarning("It looks like you have the " + earningsManagerCallbackObject.name +
+                                   " on a GameObject in your scene. Please remove the script from your scene.");
+            }
         }
     }
 }

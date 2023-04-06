@@ -25,7 +25,7 @@ namespace OVSdk
 
         public void ShowEarnings(EarningsPresentationSettings settings)
         {
-            PluginClass.CallStatic("showEarnings", JsonUtility.ToJson(new EarningsPresentationSettingsJson(settings)));
+            PluginClass.CallStatic("showEarnings", JsonUtility.ToJson(new PresentationSettingsJson(settings)));
         }
 
     }

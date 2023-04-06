@@ -30,8 +30,15 @@ public class WalletConnection : MonoBehaviour
     public InputField _earningsImpressionTriggerNameInputField;
     public Button _trackEarningsImpressionButton;
 
+    public InputField _earningsAuthPhoneNumberInputField;
+    public Button _earningsAuthGenerateCodeButton;
+    public InputField _earningsAuthCodeInputField;
+    public Button _earningsAuthLoginByPhoneCodeButton;
+
     private int _walletShowCallCount;
     private int _walletDismissCallCount;
+
+    private EarningsManagerCallbacks.AuthCodeMetadata _earningsAuthCodeMetadata;
 
     void Start()
     {
@@ -59,6 +66,8 @@ public class WalletConnection : MonoBehaviour
         OVSdk.AppConnectManagerCallbacks.OnStateUpdated += HandleAppConnectState;
         OVSdk.WalletPresenterCallbacks.OnWalletShow += HandleWalletShow;
         OVSdk.WalletPresenterCallbacks.OnWalletDismiss += HandleWalletDismiss;
+        OVSdk.EarningsManagerCallbacks.OnAuthCodeMetadata += HandleEarningsAuthCodeMetadata;
+        OVSdk.EarningsManagerCallbacks.OnAuthFailure += HandleEarningsAuthFailure;
 
         UpdateSetOrUnsetCustomPresenterButtonText();
 
@@ -264,6 +273,25 @@ public class WalletConnection : MonoBehaviour
 #endif
     }
 
+    public void GenerateEarningsAuthCode()
+    {
+#if UNITY_IOS
+        OVSdk.Sdk.EarningsManager.GenerateAuthCodeForPhoneNumber(_earningsAuthPhoneNumberInputField.text);
+#endif
+    }
+
+    public void LoginEarningsByPhoneAuthCode()
+    {
+#if UNITY_IOS
+        OVSdk.Sdk.EarningsManager.LoginByPhoneAuthCode(
+            _earningsAuthCodeMetadata.PhoneNumber,
+            _earningsAuthCodeInputField.text,
+            _earningsAuthCodeMetadata.CreatedAt,
+            USER_ID
+        );
+#endif
+    }
+
     private void HandleAppConnectState(OVSdk.AppConnectState state)
     {
         Debug.Log("Got new wallet state: " + state);
@@ -286,6 +314,18 @@ public class WalletConnection : MonoBehaviour
         _walletDismissCallCount++;
 
         UpdateStatusText();
+    }
+
+    private void HandleEarningsAuthCodeMetadata(EarningsManagerCallbacks.AuthCodeMetadata authCodeMetadata)
+    {
+        _earningsAuthCodeMetadata = authCodeMetadata;
+
+        _earningsAuthPhoneNumberInputField.text = null;
+    }
+
+    private void HandleEarningsAuthFailure(string failure)
+    {
+        PopupUtils.ShowPopup(failure);
     }
 
     private void UpdateStatusText()
@@ -332,6 +372,13 @@ public class WalletConnection : MonoBehaviour
         _showEarningsWithVideoPromoButton.interactable = true;
         _trackRandomRevenuedAdButton.interactable = true;
         _trackEarningsImpressionButton.interactable = true;
+        _earningsAuthGenerateCodeButton.interactable = true;
+        _earningsAuthLoginByPhoneCodeButton.interactable = true;
+
+        if (isConnected)
+        {
+            _earningsAuthCodeInputField.text = null;
+        }
     }
 
     private void UpdateSetOrUnsetCustomPresenterButtonText()

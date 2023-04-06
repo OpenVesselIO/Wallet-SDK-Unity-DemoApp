@@ -21,15 +21,15 @@
 extern "C" {
 #endif
     
-//    // UnityAppController.mm
-//    UIViewController* UnityGetGLViewController(void);
-//    UIWindow* UnityGetMainWindow(void);
-//    
-//    // life cycle management
-//    void UnityPause(int pause);
-//    void UnitySendMessage(const char* obj, const char* method, const char* msg);
+    // UnityAppController.mm
+    UIViewController* UnityGetGLViewController(void);
+    UIWindow* UnityGetMainWindow(void);
+
+    // life cycle management
+    void UnityPause(int pause);
+    void UnitySendMessage(const char* obj, const char* method, const char* msg);
     
-    void ov_unity_dispatch_on_main_thread(dispatch_block_t block)
+    static void ov_unity_dispatch_on_main_thread(dispatch_block_t block)
     {
         if ( block )
         {
@@ -42,6 +42,23 @@ extern "C" {
                 dispatch_async(dispatch_get_main_queue(), block);
             }
         }
+    }
+
+    static void ov_unity_send_message(const char* obj, const char* method, NSDictionary *json)
+    {
+        NSError *error;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject: json
+                                                           options: kNilOptions
+                                                             error: &error];
+
+        if ( jsonData == nil )
+        {
+            return;
+        }
+
+        NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+
+        UnitySendMessage(obj, method, jsonString.UTF8String);
     }
 
 #ifdef __cplusplus
