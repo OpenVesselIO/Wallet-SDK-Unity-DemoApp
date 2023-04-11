@@ -8,7 +8,7 @@
     <androidPackage spec="io.openvessel:sdk:[1.18.0,1.19.0["/>
   </androidPackages>
   <iosPods>
-    <iosPod name="OpenVesselSDK" version="~&gt; 1.18.1">
+    <iosPod name="OpenVesselSDK" version="~&gt; 1.18.2">
       <sources>
         <source>https://github.com/OpenVesselIO/Wallet-Pods-iOS.git</source>
       </sources>
