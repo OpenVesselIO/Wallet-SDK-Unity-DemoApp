@@ -33,6 +33,18 @@ namespace OVSdk
             PluginClass.CallStatic("showEarnings", JsonUtility.ToJson(new PresentationSettingsJson(settings)));
         }
 
+        public void GenerateAuthCodeForPhoneNumber(string phoneNumber)
+        {
+            PluginClass.CallStatic("generatePhoneAuthCode", phoneNumber);
+        }
+
+        public void LoginByPhoneAuthCode(string phoneNumber, string code, Int64 codeCreatedAt, string userId)
+        {
+            var json = new LoginJson(phoneNumber, code, codeCreatedAt, userId);
+
+            PluginClass.CallStatic("loginByPhoneAuthCode", JsonUtility.ToJson(json));
+        }
+
     }
 #endif
 }

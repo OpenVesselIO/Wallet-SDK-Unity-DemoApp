@@ -1,5 +1,7 @@
 package io.openvessel.sdk.unity;
 
+import android.os.AsyncTask;
+
 import com.unity3d.player.UnityPlayer;
 
 import org.json.JSONObject;
@@ -7,6 +9,7 @@ import org.json.JSONObject;
 import io.openvessel.wallet.sdk.EarningsActivitySettings;
 import io.openvessel.wallet.sdk.EarningsManager;
 import io.openvessel.wallet.sdk.VesselSdk;
+import io.openvessel.wallet.sdk.utils.ExceptionToUserMessage;
 import io.openvessel.wallet.sdk.utils.Logger;
 import io.openvessel.wallet.sdk.utils.StringUtils;
 
@@ -14,6 +17,10 @@ import static com.unity3d.player.UnityPlayer.currentActivity;
 
 public class EarningsManagerPlugin
 {
+
+    private static final String TAG = "EarningsManagerPlugin";
+
+    private static final String CALLBACKS_OBJECT_NAME = "OVEarningsManagerCallbacks";
 
     public static void trackRevenuedAd(final String adTypeString)
     {
@@ -56,15 +63,104 @@ public class EarningsManagerPlugin
                             }
                             catch ( Exception ex )
                             {
-                                Logger.userError( "EarningsManagerPlugin", "Unable to parse settings", ex );
+                                Logger.userError( TAG, "Unable to parse settings", ex );
                             }
                         } );
             }
             catch ( Exception ex )
             {
-                Logger.userError( "EarningsManagerPlugin", "Unable to parse settings", ex );
+                Logger.userError( TAG, "Unable to parse settings", ex );
             }
         }
+    }
+
+    public static void generatePhoneAuthCode(final String phoneNumber)
+    {
+        final VesselSdk sdk = VesselSdk.getInstance( currentActivity );
+
+        sdk.getEarningsManager().generatePhoneAuthCode( phoneNumber )
+                .whenCompleteAsync( (authCodeMetadata, th) -> {
+                    if ( authCodeMetadata != null )
+                    {
+                        try
+                        {
+                            UnitySendMessageAsync(
+                                    "ForwardOnAuthCodeMetadataEvent",
+                                    new JSONObject()
+                                            .put( "phoneNumber", phoneNumber )
+                                            .put( "createdAt", authCodeMetadata.getCreatedAt() )
+                                            .put( "expiresAt", authCodeMetadata.getExpiresAt() )
+                                            .put( "ttl", authCodeMetadata.getCooldown() )
+                            );
+                        }
+                        catch ( Exception ex )
+                        {
+                            UnitySendAuthErrorAsync( ExceptionToUserMessage.convert( ex, currentActivity ) );
+                        }
+                    }
+                    else
+                    {
+                        UnitySendAuthErrorAsync( ExceptionToUserMessage.convert( th, currentActivity ) );
+                    }
+                } );
+    }
+
+    public static void loginByPhoneAuthCode(final String json)
+    {
+        if ( StringUtils.isValidString( json ) )
+        {
+            try
+            {
+                final JSONObject jsonObject = new JSONObject( json );
+
+                final VesselSdk sdk = VesselSdk.getInstance( currentActivity );
+
+                sdk.getEarningsManager()
+                        .loginByPhoneAuthCode(
+                                jsonObject.getString( "phoneNumber" ),
+                                jsonObject.getString( "code" ),
+                                jsonObject.getLong( "codeCreatedAt" ),
+                                jsonObject.getString( "userId" )
+                        )
+                        .whenComplete( (unused, th) -> {
+                            if ( th != null )
+                            {
+                                UnitySendAuthErrorAsync( ExceptionToUserMessage.convert( th, currentActivity ) );
+                            }
+                        } );
+            }
+            catch ( Exception ex )
+            {
+                Logger.userError( TAG, "Unable to parse parameters", ex );
+            }
+        }
+    }
+
+    private static void UnitySendMessageAsync(final String method, final JSONObject jsonObj)
+    {
+        UnitySendMessageAsync( method, jsonObj.toString() );
+    }
+
+    private static void UnitySendMessageAsync(final String method, final String msg)
+    {
+        AsyncTask.THREAD_POOL_EXECUTOR.execute( () -> {
+            UnityPlayer.UnitySendMessage( CALLBACKS_OBJECT_NAME, method, msg );
+        } );
+    }
+
+    private static void UnitySendAuthErrorAsync(final String msg)
+    {
+        UnitySendMessageAsync( "ForwardOnAuthFailureEvent", msg );
+    }
+
+    private static void UnitySendVerificationErrorAsync(final String msg)
+    {
+        UnitySendMessageAsync( "ForwardOnVerificationFailureEvent", msg );
+    }
+
+    private static void UnitySendVerificationSuccess()
+    {
+        UnitySendMessageAsync( "ForwardOnVerificationSuccessEvent", "" );
     }
 
 }

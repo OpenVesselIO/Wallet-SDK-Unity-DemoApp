@@ -144,17 +144,17 @@ namespace OVSdk
             EventInvoker.InvokeEvent(_onVerificationCodeMetadataEvent, meta);
         }
 
-        public void ForwardOnAuthFailure(string description)
+        public void ForwardOnAuthFailureEvent(string description)
         {
             EventInvoker.InvokeEvent(_onAuthFailure, description);
         }
 
-        public void ForwardOnVerificationFailure(string description)
+        public void ForwardOnVerificationFailureEvent(string description)
         {
             EventInvoker.InvokeEvent(_onVerificationFailure, description);
         }
 
-        public void ForwardOnVerificationSuccess(string unused)
+        public void ForwardOnVerificationSuccessEvent(string unused)
         {
             EventInvoker.InvokeEvent(_onVerificationSuccess);
         }

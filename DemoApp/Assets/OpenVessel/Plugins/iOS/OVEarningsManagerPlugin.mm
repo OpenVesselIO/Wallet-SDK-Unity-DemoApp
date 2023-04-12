@@ -15,17 +15,17 @@ extern "C" {
 
     static void earnings_send_auth_error(NSString *msg)
     {
-        UnitySendMessage(kCallbacksObjectName, "ForwardOnAuthFailure", msg.UTF8String);
+        UnitySendMessage(kCallbacksObjectName, "ForwardOnAuthFailureEvent", msg.UTF8String);
     }
 
     static void earnings_send_verification_error(NSString *msg)
     {
-        UnitySendMessage(kCallbacksObjectName, "ForwardOnVerificationFailure", msg.UTF8String);
+        UnitySendMessage(kCallbacksObjectName, "ForwardOnVerificationFailureEvent", msg.UTF8String);
     }
 
     static void earnings_send_verification_success()
     {
-        UnitySendMessage(kCallbacksObjectName, "ForwardOnVerificationSuccess", "");
+        UnitySendMessage(kCallbacksObjectName, "ForwardOnVerificationSuccessEvent", "");
     }
 
     void _OVTrackRevenuedAd(const char * adTypeCString)
