@@ -4,13 +4,15 @@
     <repositories>
       <repository>https://artifacts.openvessel.io/maven/</repository>
       <repository>https://jcenter.bintray.com/</repository>
+      <repository>file:///var/folders/gk/1bs1f7b91cs2k4cv9wtx26600000gp/T/OpenVessel/Unity/local-maven-repository</repository>
     </repositories>
-    <androidPackage spec="io.openvessel:sdk:[1.18.0,1.19.0["/>
+    <androidPackage spec="io.openvessel:sdk-local:1.18.+"/>
   </androidPackages>
   <iosPods>
-    <iosPod name="OpenVesselSDK" version="~&gt; 1.18.2">
+    <iosPod name="OpenVesselSDK/Dev" version="~&gt; 1.18.0-dev">
       <sources>
         <source>https://github.com/OpenVesselIO/Wallet-Pods-iOS.git</source>
+        <source>https://github.com/OpenVesselIO/iOS-Private-Pods.git</source>
       </sources>
     </iosPod>
   </iosPods>

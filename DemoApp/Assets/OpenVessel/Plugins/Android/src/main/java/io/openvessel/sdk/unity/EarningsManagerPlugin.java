@@ -2,8 +2,6 @@ package io.openvessel.sdk.unity;
 
 import com.unity3d.player.UnityPlayer;
 
-import java.util.Optional;
-
 import org.json.JSONObject;
 
 import io.openvessel.wallet.sdk.EarningsActivitySettings;
@@ -26,6 +24,13 @@ public class EarningsManagerPlugin
         } );
     }
 
+    public static void trackImpression(final String triggerName)
+    {
+        final VesselSdk sdk = VesselSdk.getInstance( currentActivity );
+
+        sdk.getEarningsManager().trackImpression( triggerName );
+    }
+
     public static void showEarnings(final String settingsJson)
     {
         if ( StringUtils.isValidString( settingsJson ) )
@@ -37,23 +42,23 @@ public class EarningsManagerPlugin
                 final VesselSdk sdk = VesselSdk.getInstance( currentActivity );
 
                 EarningsActivitySettings.PromoType
-                    .maybeValueOf( settings.getString( "promoType" ) )
-                    .ifPresent( promoType -> {
-                        try
-                        {
-                            sdk.getEarningsManager().startEarningsActivity(
-                                EarningsActivitySettings.builder( settings.getString( "userId" ) )
-                                        .promoType( promoType )
-                                        .triggerName( settings.getString( "triggerName" ) )
-                                        .build(),
-                                currentActivity
-                            );
-                        }
-                        catch ( Exception ex )
-                        {
-                            Logger.userError( "EarningsManagerPlugin", "Unable to parse settings", ex );
-                        }
-                    } );
+                        .maybeValueOf( settings.getString( "promoType" ) )
+                        .ifPresent( promoType -> {
+                            try
+                            {
+                                sdk.getEarningsManager().startEarningsActivity(
+                                        EarningsActivitySettings.builder( settings.getString( "userId" ) )
+                                                .promoType( promoType )
+                                                .triggerName( settings.getString( "triggerName" ) )
+                                                .build(),
+                                        currentActivity
+                                );
+                            }
+                            catch ( Exception ex )
+                            {
+                                Logger.userError( "EarningsManagerPlugin", "Unable to parse settings", ex );
+                            }
+                        } );
             }
             catch ( Exception ex )
             {

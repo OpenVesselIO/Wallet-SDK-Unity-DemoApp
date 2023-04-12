@@ -18,6 +18,11 @@ namespace OVSdk
             PluginClass.CallStatic("trackRevenuedAd", adType.ToString().ToUpperInvariant());
         }
 
+        public void TrackImpression(string triggerName)
+        {
+            PluginClass.CallStatic("trackImpression", triggerName);
+        }
+
         public void ShowEarnings(string userId)
         {
             ShowEarnings(new EarningsPresentationSettings(userId));

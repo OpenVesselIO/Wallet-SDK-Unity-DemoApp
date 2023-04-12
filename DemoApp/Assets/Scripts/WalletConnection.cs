@@ -279,9 +279,7 @@ public class WalletConnection : MonoBehaviour
 
     public void TrackEarningsImpression()
     {
-#if UNITY_IOS
         OVSdk.Sdk.EarningsManager.TrackImpression(_earningsImpressionTriggerNameInputField.text);
-#endif
     }
 
     public void GenerateEarningsPhoneAuthCode()
