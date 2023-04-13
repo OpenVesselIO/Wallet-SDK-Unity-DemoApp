@@ -299,20 +299,16 @@ public class WalletConnection : MonoBehaviour
 
     public void GenerateEarningsEmailVerificationCode()
     {
-#if UNITY_IOS
         OVSdk.Sdk.EarningsManager.GenerateVerificationCodeForEmail(_earningsVerificationEmailInputField.text);
-#endif
     }
 
     public void VerifyEarningsEmail()
     {
-#if UNITY_IOS
         OVSdk.Sdk.EarningsManager.VerifyEmail(
             _earningsVerificationCodeMetadata.Email,
             _earningsVerificationEmailCodeInputField.text,
             _earningsVerificationCodeMetadata.CreatedAt
         );
-#endif
     }
 
     private void HandleAppConnectState(OVSdk.AppConnectState state)

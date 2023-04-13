@@ -136,6 +136,72 @@ public class EarningsManagerPlugin
         }
     }
 
+    public static void generateEmailVerificationCode(final String email)
+    {
+        final VesselSdk sdk = VesselSdk.getInstance( currentActivity );
+
+        sdk.getEarningsManager().generateEmailVerificationCode( email )
+                .whenCompleteAsync( (authCodeMetadata, th) -> {
+                    if ( authCodeMetadata != null )
+                    {
+                        try
+                        {
+                            UnitySendMessageAsync(
+                                    "ForwardOnVerificationCodeMetadataEvent",
+                                    new JSONObject()
+                                            .put( "email", email )
+                                            .put( "createdAt", authCodeMetadata.getCreatedAt() )
+                                            .put( "expiresAt", authCodeMetadata.getExpiresAt() )
+                                            .put( "ttl", authCodeMetadata.getCooldown() )
+                            );
+                        }
+                        catch ( Exception ex )
+                        {
+                            UnitySendVerificationErrorAsync( ExceptionToUserMessage.convert( ex, currentActivity ) );
+                        }
+                    }
+                    else
+                    {
+                        UnitySendVerificationErrorAsync( ExceptionToUserMessage.convert( th, currentActivity ) );
+                    }
+                } );
+        ;
+    }
+
+    public static void verifyEmailByCode(final String json)
+    {
+        if ( StringUtils.isValidString( json ) )
+        {
+            try
+            {
+                final JSONObject jsonObject = new JSONObject( json );
+
+                final VesselSdk sdk = VesselSdk.getInstance( currentActivity );
+
+                sdk.getEarningsManager()
+                        .verifyEmailByCode(
+                                jsonObject.getString( "email" ),
+                                jsonObject.getString( "code" ),
+                                jsonObject.getLong( "codeCreatedAt" )
+                        )
+                        .whenComplete( (unused, th) -> {
+                            if ( th != null )
+                            {
+                                UnitySendVerificationErrorAsync( ExceptionToUserMessage.convert( th, currentActivity ) );
+                            }
+                            else
+                            {
+                                UnitySendVerificationSuccess();
+                            }
+                        } );
+            }
+            catch ( Exception ex )
+            {
+                Logger.userError( TAG, "Unable to parse parameters", ex );
+            }
+        }
+    }
+
     private static void UnitySendMessageAsync(final String method, final JSONObject jsonObj)
     {
         UnitySendMessageAsync( method, jsonObj.toString() );

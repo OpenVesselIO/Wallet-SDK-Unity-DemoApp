@@ -45,6 +45,18 @@ namespace OVSdk
             PluginClass.CallStatic("loginByPhoneAuthCode", JsonUtility.ToJson(json));
         }
 
+        public void GenerateVerificationCodeForEmail(string email)
+        {
+            PluginClass.CallStatic("generateEmailVerificationCode", email);
+        }
+
+        public void VerifyEmail(string email, string code, Int64 codeCreatedAt)
+        {
+            var json = new VerificationJson(email, code, codeCreatedAt);
+
+            PluginClass.CallStatic("verifyEmailByCode", JsonUtility.ToJson(json));
+        }
+
     }
 #endif
 }
